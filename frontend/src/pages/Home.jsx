@@ -1,79 +1,93 @@
-import { Link } from 'react-router-dom';
-import { FaRobot, FaMapMarkedAlt, FaCalendarAlt, FaGlobe, FaUserFriends } from 'react-icons/fa';
-import { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import Footer from '../components/Footer'; 
+import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import { motion } from "framer-motion";
 
-const Home = () => {
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
-
+function HomePage({ darkMode, setDarkMode }) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100 text-gray-800">
+    <div className={`min-h-screen font-poppins transition-colors duration-500 ${darkMode ? 'bg-gray-950 text-gray-200' : 'bg-gray-50 text-gray-800'}`}>
+      {/* Navbar */}
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       {/* Hero Section */}
-      <section className="px-6 py-24 flex flex-col items-center justify-center text-center" data-aos="fade-up">
-        <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-indigo-700">Meet <span className="text-indigo-600">Triply AI</span> 🌍</h1>
-        <p className="text-lg sm:text-xl max-w-2xl mb-8 text-gray-600">
-          Your personal AI-powered travel assistant. Get personalized trips, smart suggestions, live maps, and more — all in one place.
-        </p>
-        <Link
-          to="/planner"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-3 rounded-full transition shadow"
+      <header className={`px-6 py-20 text-center ${darkMode ? 'bg-gray-900' : 'bg-indigo-100'}`}>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className={`text-4xl sm:text-5xl font-bold mb-4 ${darkMode ? 'text-indigo-400' : 'text-indigo-700'}`}
         >
-          🧠 Start Planning with AI
-        </Link>
-      </section>
+          Hello, I'm <span className={darkMode ? 'text-indigo-300' : 'text-indigo-600'}>Triply AI</span> 🧭
+        </motion.h1>
 
-      {/* Features */}
-      <section className="max-w-6xl mx-auto px-4 py-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-8" data-aos="fade-up">
-        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-          <FaRobot className="text-3xl text-indigo-600 mb-3" />
-          <h3 className="text-xl font-semibold mb-2">AI Trip Planner</h3>
-          <p className="text-sm text-gray-600">Just tell us your dream — Triply AI will craft a smart, optimized travel plan tailored to you.</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-          <FaMapMarkedAlt className="text-3xl text-indigo-600 mb-3" />
-          <h3 className="text-xl font-semibold mb-2">Interactive Map</h3>
-          <p className="text-sm text-gray-600">Explore locations using AI-enhanced interactive maps. Zoom in to hidden gems!</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-          <FaCalendarAlt className="text-3xl text-indigo-600 mb-3" />
-          <h3 className="text-xl font-semibold mb-2">Day-wise Scheduler</h3>
-          <p className="text-sm text-gray-600">Your trip, broken down day by day — fully editable and powered by AI logic.</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-          <FaUserFriends className="text-3xl text-indigo-600 mb-3" />
-          <h3 className="text-xl font-semibold mb-2">Group Collaboration</h3>
-          <p className="text-sm text-gray-600">Invite friends or family to join and edit the trip live, just like Google Docs!</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
-          <FaGlobe className="text-3xl text-indigo-600 mb-3" />
-          <h3 className="text-xl font-semibold mb-2">Global Intelligence</h3>
-          <p className="text-sm text-gray-600">From Paris to remote villages, Triply AI learns trends and adapts your plans smartly.</p>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="px-6 py-16  bg-indigo-600 text-white text-center" data-aos="fade-up">
-        <h2 className="text-3xl font-bold mb-4">Ready to make your next trip smarter?</h2>
-        <p className="mb-6">Let Triply AI guide you every step of the way.</p>
-        <Link
-          to="/planner"
-          className="bg-white text-indigo-600 font-semibold px-6 py-3 rounded-full hover:bg-gray-100 transition"
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className={`text-lg sm:text-xl max-w-2xl mx-auto mb-8 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}
         >
-          🚀 Get Started
-        </Link>
+          Your smart travel companion. I craft custom itineraries, hidden gems, and the perfect trip tailored just for you.
+        </motion.p>
+
+        <motion.a
+          href="/planner"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <button className="bg-indigo-600 text-white px-6 py-3 rounded-full text-lg hover:bg-indigo-700 transition">
+            🧠 Plan My Trip with AI
+          </button>
+        </motion.a>
+      </header>
+
+      {/* Features Section */}
+      <section className={`px-6 py-16 ${darkMode ? 'bg-gray-900' : 'bg-white'} transition-colors duration-500`}>
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className={`text-3xl font-semibold mb-10 ${darkMode ? 'text-indigo-300' : 'text-indigo-700'}`}>
+            What can I help you with today?
+          </h2>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: "✈️",
+                title: "Plan a custom trip",
+                desc: "Tell me where and when you want to go.",
+              },
+              {
+                icon: "📍",
+                title: "Suggest hidden spots",
+                desc: "Find offbeat and beautiful locations.",
+              },
+              {
+                icon: "🏨",
+                title: "Book stays & activities",
+                desc: "Smart suggestions for hotels and experiences.",
+              },
+              {
+                icon: "⏱️",
+                title: "Create a daily plan",
+                desc: "Organize your itinerary by day and time.",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ scale: 1.03 }}
+                className={`p-5 rounded-xl border transition duration-300 shadow-md ${darkMode ? 'bg-gray-800 border-gray-700' : 'bg-gray-50 border-gray-200'}`}
+              >
+                <div className="text-3xl mb-2">{item.icon}</div>
+                <h3 className="font-semibold mb-1">{item.title}</h3>
+                <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
-<Footer/>
+
+      {/* Footer */}
+      <Footer darkMode={darkMode} setDarkMode={setDarkMode} />
     </div>
   );
-};
+}
 
-export default Home;
+export default HomePage;

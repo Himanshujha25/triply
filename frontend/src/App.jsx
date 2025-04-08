@@ -1,27 +1,35 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Home from './pages/Home'
- import './App.css'
-// import Login from './pages/Login'
-// import Register from './pages/Register'
- import Planner from './pages/Planner'
-// import Result from './pages/Result'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/Home';
+import Planner from './pages/Planner';
+import { useEffect, useState } from 'react';
+import './App.css';
 
 function App() {
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("theme") === "dark";
+  });
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [darkMode]);
+
   return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/planner" element={<Planner />} />
-         {/* <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-    
-        <Route path="/result" element={<Result />} /> */ }
-      </Routes>
-    </Router>
-  )
+    <div className={darkMode ? "dark" : ""}>
+      <Router>
+        <Routes>
+          <Route path="/" element={<HomePage darkMode={darkMode} setDarkMode={setDarkMode} />} />
+          <Route path="/planner" element={<Planner darkMode={darkMode} setDarkMode={setDarkMode} />} />
+
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
-export default App
+export default App;

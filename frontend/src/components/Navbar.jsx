@@ -1,37 +1,32 @@
-import { FaRobot, FaHome, FaMapMarkedAlt, FaCalendarAlt } from 'react-icons/fa';
-import logo from '../assets/ChatGPT Image Apr 7, 2025, 08_48_52 PM.png'; // make sure your logo path is correct
+import React from "react";
+import { FaMapMarkedAlt, FaMoon, FaSun } from "react-icons/fa";
 
-const Navbar = () => {
+const Navbar = ({ darkMode, setDarkMode }) => {
   return (
-    <nav className="sticky top-0 bg-white/80 backdrop-blur-lg shadow-md z-50 px-4 py-3 flex justify-between items-center">
-
-      {/* Logo + AI Assistant Title */}
-      <div className="flex items-center space-x-3">
-        <img src={logo} alt="Triply Logo" className="w-10 h-10 rounded-full shadow" />
-        <h1 className="text-xl font-bold text-gray-800 tracking-wide">
-          Triply <span className="text-indigo-600">AI</span>
-        </h1>
+    <nav className={`flex justify-between items-center px-6 py-4 transition-all duration-300 
+      ${darkMode 
+        ? 'bg-gray-900 border-b border-gray-800 shadow-md' 
+        : 'bg-gray-50 border-b border-gray-200 shadow-sm'
+      }`}>
+      
+      {/* Logo */}
+      <div className="flex items-center space-x-2 text-indigo-600 dark:text-indigo-400 text-xl font-bold">
+        <FaMapMarkedAlt />
+        <span>Triply AI</span>
       </div>
 
-      {/* Nav Icons - Assistant Style */}
-      <div className="flex space-x-6 text-gray-700 text-lg">
-        <button className="flex items-center space-x-1 hover:text-indigo-600 transition">
-          <FaHome />
-          <span className="hidden sm:inline">Home</span>
-        </button>
-        <button className="flex items-center space-x-1 hover:text-indigo-600 transition">
-          <FaMapMarkedAlt />
-          <span className="hidden sm:inline">Explore</span>
-        </button>
-        <button className="flex items-center space-x-1 hover:text-indigo-600 transition">
-          <FaCalendarAlt />
-          <span className="hidden sm:inline">Planner</span>
-        </button>
-        <button className="flex items-center space-x-1 text-white bg-indigo-600 px-3 py-1.5 rounded-full hover:bg-indigo-700 transition">
-          <FaRobot />
-          <span className="hidden sm:inline">Ask AI</span>
-        </button>
-      </div>
+      {/* Dark Mode Toggle */}
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+        className={`text-xl p-2 rounded-full transition duration-300
+          ${darkMode 
+            ? 'bg-gray-800 text-gray-200 hover:bg-gray-700' 
+            : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-200'
+          }`}
+      >
+        {darkMode ? <FaMoon /> : <FaSun />}
+      </button>
     </nav>
   );
 };
