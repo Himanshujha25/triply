@@ -1,2 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 @import "tailwindcss";
+html {
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+  

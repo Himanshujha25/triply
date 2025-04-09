@@ -1,34 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/Home';
 import Planner from './pages/Planner';
-import { useEffect, useState } from 'react';
+import Itinerary from './pages/Itinerary';
+;import Contact from './pages/Contact';
+import About from './pages/About';
 import './App.css';
 
 function App() {
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("theme") === "dark";
-  });
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
+  // Ensure dark mode class is always applied
+  document.documentElement.classList.add("dark");
 
   return (
-    <div className={darkMode ? "dark" : ""}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage darkMode={darkMode} setDarkMode={setDarkMode} />} />
-          <Route path="/planner" element={<Planner darkMode={darkMode} setDarkMode={setDarkMode} />} />
-
-        </Routes>
-      </Router>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/planner" element={<Planner />} />
+        <Route path="/itinerary" element={<Itinerary />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </Router>
   );
 }
 
