@@ -70,6 +70,6 @@ Guidelines:
     res.status(500).json({
       message:
         error.response?.data?.error?.message || "Failed to generate travel plan."
-    });
+    });;
   }
 };
