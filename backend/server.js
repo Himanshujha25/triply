@@ -7,9 +7,13 @@ const tripController = require("./controllers/tripController");
 const app = express();
 
 // CORS Setup
-app.use(cors({
-  origin: ["https://triplybycybernexus.vercel.app"]
-}));
+app.use(
+  cors({
+    origin: "https://triplybycybernexus.vercel.app", // ✅ allow your frontend domain
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // if you need to send cookies/auth
+  })
+);
 
 // Middleware
 app.use(express.json());
