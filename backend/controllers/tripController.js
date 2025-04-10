@@ -16,13 +16,13 @@ Format:
 Day X: Activity 1 (estimated cost), Activity 2 (estimated cost), etc.
 
 Guidelines:
--also check the currency logo or name used by user
+- Also check the currency logo or currency name used by user
 - Stay within the budget
 - Include top attractions & hidden gems
 - Suggest food, transport, and local tips
 - Mention estimated cost in USD after each activity
 - Ensure total cost doesn’t exceed budget
-`;
+    `;
 
     const response = await axios.post(
       "https://openrouter.ai/api/v1/chat/completions",
@@ -37,9 +37,7 @@ Guidelines:
       {
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": "https://ai-travel-planner-dwzv.onrender.com",
-          "X-Title": "Travel Planner"
+          "Content-Type": "application/json"
         }
       }
     );
