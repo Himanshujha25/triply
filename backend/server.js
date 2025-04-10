@@ -7,7 +7,8 @@ const cors = require('cors');
 // const connectDB = require("./config/db"); // Uncomment if using MongoDB
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors({   origin: "https://triplybycybernexus.vercel.app"
+}));
 app.use(express.json());
 
 // connectDB(); // Uncomment if using MongoDB
