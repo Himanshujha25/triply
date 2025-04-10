@@ -37,6 +37,7 @@ const Planner = () => {
           endDate: departureDate,
         }),
       });
+      
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to generate itinerary");
