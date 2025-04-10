@@ -24,17 +24,17 @@ Guidelines:
 `;
 
   try {
-    const apiKey = process.env.OPENROUTER_API_KEY;
+    const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
-      console.error("❌ OPENROUTER_API_KEY is missing in environment variables.");
+      console.error("❌ OPENAI_API_KEY is missing in environment variables.");
       return res.status(500).json({ message: "Server configuration error." });
     }
 
     const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
+      "https://api.openai.com/v1/chat/completions",
       {
-        model: "openai/gpt-3.5-turbo",
+        model: "gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a helpful travel planner assistant." },
           { role: "user", content: prompt }
@@ -46,8 +46,6 @@ Guidelines:
           "Authorization": `Bearer ${apiKey}`,
           "Content-Type": "application/json"
         }
-        
-        
       }
     );
 
@@ -56,14 +54,14 @@ Guidelines:
       response.data?.choices?.[0]?.content;
 
     if (!plan) {
-      console.error("❗ No content in OpenRouter response:", response.data);
+      console.error("❗ No content in OpenAI response:", response.data);
       return res.status(500).json({ message: "AI did not return a travel plan." });
     }
 
     res.status(200).json({ travelPlan: plan });
 
   } catch (error) {
-    console.error("❌ OpenRouter API error:", {
+    console.error("❌ OpenAI API error:", {
       status: error.response?.status,
       data: error.response?.data,
       headers: error.response?.headers,
