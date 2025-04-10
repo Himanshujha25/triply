@@ -23,7 +23,7 @@ if (!process.env.OPENROUTER_API_KEY) {
 
 // Route
 app.post("/api/travel", tripController.travelPlanner);
-
+console.log("API Key Loaded:", process.env.OPENROUTER_API_KEY);
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
