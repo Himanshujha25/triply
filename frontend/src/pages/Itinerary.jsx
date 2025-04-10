@@ -28,7 +28,7 @@ const Itinerary = () => {
     <div
       className="min-h-screen flex flex-col relative bg-cover bg-center bg-no-repeat dark:text-white"
       style={{
-        backgroundImage: `url(${bg})`,
+        backgroundImage: `url(${bg}) `,
       }}
     >
       <div className="relative z-10 flex flex-col flex-grow">
