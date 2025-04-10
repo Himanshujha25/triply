@@ -43,7 +43,7 @@ Guidelines:
       },
       {
         headers: {
-          "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Authorization": `Bearer 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`,
           "Content-Type": "application/json"
         }
         
