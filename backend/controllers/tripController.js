@@ -16,6 +16,7 @@ Format:
 Day X: Activity 1 (estimated cost), Activity 2 (estimated cost), etc.
 
 Guidelines:
+-also check the currency logo or name used by user
 - Stay within the budget
 - Include top attractions & hidden gems
 - Suggest food, transport, and local tips
@@ -37,7 +38,7 @@ Guidelines:
         headers: {
           Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json",
-          "HTTP-Referer": "https://ai-travel-planner-dwzv.onrender.com/api/travel",
+          "HTTP-Referer": "https://ai-travel-planner-dwzv.onrender.com",
           "X-Title": "Travel Planner"
         }
       }
@@ -48,13 +49,18 @@ Guidelines:
       response.data?.choices?.[0]?.content;
 
     if (!plan) {
-      console.error("No plan content found in response:", response.data);
+      console.error("❗ No plan content in response:", response.data);
       return res.status(500).json({ message: "No itinerary received from AI." });
     }
 
     res.status(200).json({ travelPlan: plan });
   } catch (error) {
-    console.error("❌ Error generating travel plan:", error.response?.data || error.message);
+    console.error("❌ Error generating travel plan:", {
+      data: error.response?.data,
+      status: error.response?.status,
+      headers: error.response?.headers,
+      message: error.message
+    });
     res.status(500).json({ message: "Failed to generate travel plan." });
   }
 };

@@ -45,9 +45,9 @@ function About() {
       <div className="relative z-10">
         <Navbar />
 
-        {/* About Header */}
+    
         <header className="text-center px-6 py-20">
-  {/* Logo or banner image for CyberNexus */}
+
   <motion.img
     src={cybernexus}
     alt="CyberNexus Team Logo"
@@ -90,7 +90,6 @@ function About() {
           </div>
         </section>
 
-        {/* Vision Section */}
         <section className="px-6 py-12 text-center text-white">
           <motion.h2
             initial={{ opacity: 0 }}

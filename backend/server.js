@@ -2,22 +2,24 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const tripController = require("./controllers/tripController");
-const cors = require('cors');
-
-// const connectDB = require("./config/db"); // Uncomment if using MongoDB
+const cors = require("cors");
 
 const app = express();
-app.use(cors({   origin: "https://triplybycybernexus.vercel.app"
-}));
-app.use(express.json());
 
-// connectDB(); // Uncomment if using MongoDB
+// CORS Setup
+app.use(cors({
+  origin: ["https://triplybycybernexus.vercel.app"],
+}));
+
+// Middleware
+app.use(express.json());
 app.use(bodyParser.json());
 
-// Route
-app.use("/api/travel", tripController.travelPlanner);
+// Routes
+app.post("/api/travel", tripController.travelPlanner);
 
+// Server Listener
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`🚀 Server is running on port ${PORT}`);
+  console.log(`🚀 Server is running on port ${PORT}`);
 });
