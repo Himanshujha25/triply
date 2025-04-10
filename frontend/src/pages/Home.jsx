@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import bg from "../assets/bg.png";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
-function HomePage({ darkMode, setDarkMode }) {
+function HomePage() {
+  const [ripples, setRipples] = useState([]);
+
+  const createRipple = (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    const id = Date.now();
+
+    setRipples((prev) => [...prev, { x, y, id }]);
+
+    
+    setTimeout(() => {
+      setRipples((prev) => prev.filter((r) => r.id !== id));
+    }, 1000); 
+  };
+
   return (
     <div
-      className="min-h-screen font-poppins text-gray-800 dark:text-gray-200 transition-colors duration-500 relative"
+      onClick={createRipple}
+      className="min-h-screen font-poppins text-gray-800 dark:text-gray-200 transition-colors duration-500 relative overflow-hidden"
       style={{
         backgroundImage: `url(${bg})`,
         backgroundSize: "cover",
@@ -15,14 +32,34 @@ function HomePage({ darkMode, setDarkMode }) {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* 🔲 Global dark overlay for entire page */}
+      
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm z-0" />
 
-      {/* 🔳 Content layer */}
-      <div className="relative z-10">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+      
+      <div className="absolute inset-0 pointer-events-none z-10">
+        <AnimatePresence>
+          {ripples.map((ripple) => (
+            <motion.div
+              key={ripple.id}
+              initial={{ opacity: 0.4, scale: 0 }}
+              animate={{ opacity: 0, scale: 15 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              style={{
+                top: ripple.y - 50,
+                left: ripple.x - 50,
+              }}
+              className="absolute w-24 h-24 rounded-full bg-white/20 backdrop-blur-lg"
+            />
+          ))}
+        </AnimatePresence>
+      </div>
 
-        {/* Hero Section */}
+      
+      <div className="relative z-20">
+        <Navbar/>
+
+        
         <header className="px-6 py-20 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -44,7 +81,7 @@ function HomePage({ darkMode, setDarkMode }) {
 
           <motion.a href="/planner" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <button className="bg-indigo-600 text-white px-6 py-3 rounded-full text-lg hover:bg-indigo-700 transition">
-              🧠 Plan My Trip with AI
+             Get Started ➡️
             </button>
           </motion.a>
         </header>

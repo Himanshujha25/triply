@@ -20,7 +20,7 @@ function About() {
       desc: "Builds beautiful UI with React and modern CSS.",
     },
     {
-      name: "Nitin",
+      name: "Nitin Prakash",
       role: "Frontend Developer",
       desc: "Contributes in crafting responsive and interactive designs.",
     },

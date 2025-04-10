@@ -38,7 +38,7 @@ const Footer = () => {
           <div className="flex justify-center sm:justify-end space-x-4 text-2xl">
             <a href="https://github.com/himanshujha25" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500"><FaGithub /></a>
             <a href="https://linkedin.com/in/himanshujha25" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500"><FaLinkedin /></a>
-            <a href="https://instagram.com/himanshujha25" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500"><FaInstagram /></a>
+            <a href="https://instagram.com/himanshu.jha123" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500"><FaInstagram /></a>
             <a href="https://twitter.com/himanshujha25" target="_blank" rel="noopener noreferrer" className="hover:text-indigo-500"><FaTwitter /></a>
           </div>
         </div>
