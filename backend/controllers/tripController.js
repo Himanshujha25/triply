@@ -29,7 +29,7 @@ Guidelines:
         model: "openai/gpt-3.5-turbo",
         messages: [
           { role: "system", content: "You are a helpful travel planner assistant." },
-          { role: "user", content: prompt }
+          { role: "user", content: prompt  }
         ],
         temperature: 0.7
       },
