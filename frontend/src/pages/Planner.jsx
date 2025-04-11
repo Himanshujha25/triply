@@ -1,4 +1,3 @@
-// Planner.jsx
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
@@ -28,15 +27,18 @@ const Planner = () => {
     try {
       const response = await fetch("http://localhost:3000/api/travel", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify({
           destination,
-          budget,
-          interests: preferences,
           startDate: arrivalDate,
           endDate: departureDate,
-        }),
+          interests: preferences,
+          budget
+        })
       });
+      
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to generate itinerary");
@@ -49,7 +51,7 @@ const Planner = () => {
       
       lines.forEach((line) => {
         const trimmed = line.trim();
-        const dayMatch = trimmed.match(/^Day\s*(\d+):/i); // only match if line starts with Day X:
+        const dayMatch = trimmed.match(/^Day\s*(\d+):/i); 
       
         if (dayMatch) {
           currentDay = parseInt(dayMatch[1]);

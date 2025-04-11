@@ -24,21 +24,21 @@ Guidelines:
 `;
 
     const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
+      "https://api.together.xyz/v1/chat/completions",
       {
-        model: "openai/gpt-3.5-turbo",
+        model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
         messages: [
           { role: "system", content: "You are a helpful travel planner assistant." },
-          { role: "user", content: prompt  }
+          { role: "user", content: prompt }
         ],
-        temperature: 0.7
+        temperature: 0.7,
+        max_tokens: 1000,
+        top_p: 0.9
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": "http://localhost:5173/planner",
-          "X-Title": "Travel Planner"
+          Authorization: `Bearer ${process.env.TOGETHER_API_KEY}`,
+          "Content-Type": "application/json"
         }
       }
     );

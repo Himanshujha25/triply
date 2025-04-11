@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";
+import axios from "axios";
 
 const Itinerary = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [flights, setFlights] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const { destination, budget, preferences, itinerary } = location.state || {};
 
@@ -24,16 +28,28 @@ const Itinerary = () => {
     );
   }
 
+  const handleSearchFlights = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.post("http://localhost:3000/api/flights", {
+        destination,
+      });
+      setFlights(response.data.flights);
+    } catch (err) {
+      setError("Failed to fetch flights.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="min-h-screen flex flex-col relative bg-cover bg-center bg-no-repeat dark:text-white"
-      style={{
-        backgroundImage: `url(${bg})`,
-      }}
+      style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="relative z-10 flex flex-col flex-grow">
         <div className="p-5 flex-grow">
-          {/* Top Controls */}
           <div className="flex justify-between mb-4">
             <Link
               to="/"
@@ -44,12 +60,10 @@ const Itinerary = () => {
             </Link>
           </div>
 
-          {/* Heading */}
           <h1 className="text-3xl font-bold text-center text-sky-700 dark:text-teal-400 mb-6">
             ✈️ Your Itinerary Plan
           </h1>
 
-          {/* Itinerary Info */}
           <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
             <p className="text-lg mb-4">
               <strong>Destination:</strong> {destination}
@@ -72,6 +86,29 @@ const Itinerary = () => {
                 <p>{item.activity}</p>
               </div>
             ))}
+
+            <div className="text-center mt-10">
+              <button
+                onClick={handleSearchFlights}
+                className="px-6 py-3 bg-sky-600 text-white rounded-full hover:bg-sky-700"
+              >
+                🔍 Search Flights
+              </button>
+              {loading && <p className="mt-4 text-blue-600">Loading flights...</p>}
+              {error && <p className="mt-4 text-red-500">{error}</p>}
+              {flights && (
+                <div className="mt-6 text-left">
+                  <h2 className="text-xl font-bold mb-4">Available Flights:</h2>
+                  <ul className="space-y-2">
+                    {flights.map((flight, index) => (
+                      <li key={index} className="p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
+                        ✈️ {flight.airline} - {flight.departure} ➡️ {flight.arrival} - ${flight.price}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

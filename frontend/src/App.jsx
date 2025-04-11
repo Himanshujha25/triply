@@ -4,6 +4,7 @@ import Planner from './pages/Planner';
 import Itinerary from './pages/Itinerary';
 ;import Contact from './pages/Contact';
 import About from './pages/About';
+import Flight from './pages/Flight';
 import './App.css';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path="/itinerary" element={<Itinerary />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path='/Flight' element={<Flight/>}/>
       </Routes>
     </Router>
   );

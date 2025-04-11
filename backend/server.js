@@ -1,21 +1,20 @@
-require("dotenv").config(); // Load .env variables
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 const tripController = require("./controllers/tripController");
+const flightController = require("./controllers/flightController");
 
 const app = express();
 
-// Middleware
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(bodyParser.json());
 
-// API Route
 app.post("/api/travel", tripController.travelPlanner);
+app.post("/api/flights", flightController.searchFlights); // 👈 Add this line
 
-// Server listen
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`);
