@@ -1,18 +1,53 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";
-import axios from "axios";
+// import { fetchImageFromUnsplash } from "../../../backend/utils/unsplash.js";
+
 
 const Itinerary = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [flights, setFlights] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [images, setImages] = useState({}); // 🔧 Store day-wise images
 
-  const { destination, budget, preferences, itinerary } = location.state || {};
+  const {
+    destination,
+    budget,
+    preferences,
+    itinerary,
+    arrivalDate,
+    departureDate,
+    from,
+  } = location.state || {};
+
+  const handleCheckFlights = () => {
+    navigate("/flight", {
+      state: {
+         from: from,
+        destination: `${destination}`,
+        arrivalDate: `${arrivalDate}`,
+        departureDate: `${departureDate}`,
+      },
+    });
+  };
+
+  // 🔧 Fetch image for each day based on activity or fallback to destination
+  // useEffect(() => {
+  //   const fetchImages = async () => {
+  //     if (!itinerary) return;
+
+  //     const imageMap = {};
+  //     for (const item of itinerary) {
+  //       const query = item.activity || destination;
+  //       const img = await fetchImageFromUnsplash(query);
+  //       imageMap[item.day] = img;
+  //     }
+  //     setImages(imageMap);
+  //   };
+
+  //   fetchImages();
+  // }, [itinerary, destination]);
 
   if (!destination || !budget || !preferences || !itinerary) {
     return (
@@ -27,21 +62,6 @@ const Itinerary = () => {
       </div>
     );
   }
-
-  const handleSearchFlights = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post("http://localhost:3000/api/flights", {
-        destination,
-      });
-      setFlights(response.data.flights);
-    } catch (err) {
-      setError("Failed to fetch flights.");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div
@@ -82,32 +102,27 @@ const Itinerary = () => {
                 key={item.day}
                 className="mb-4 p-4 rounded-lg bg-sky-100 dark:bg-gray-700"
               >
-                <h3 className="text-xl font-semibold">Day {item.day}</h3>
-                <p>{item.activity}</p>
+                <h3 className="text-xl font-semibold mb-2">Day {item.day}</h3>
+                <p className="mb-2">{item.activity}</p>
+
+                {/* 🖼️ Image section */}
+                {images[item.day] && (
+                  <img
+                    src={images[item.day]}
+                    alt={`Image for ${item.activity}`}
+                    className="rounded-lg shadow-lg mt-2 w-full h-64 object-cover"
+                  />
+                )}
               </div>
             ))}
 
             <div className="text-center mt-10">
               <button
-                onClick={handleSearchFlights}
+                onClick={handleCheckFlights}
                 className="px-6 py-3 bg-sky-600 text-white rounded-full hover:bg-sky-700"
               >
                 🔍 Search Flights
               </button>
-              {loading && <p className="mt-4 text-blue-600">Loading flights...</p>}
-              {error && <p className="mt-4 text-red-500">{error}</p>}
-              {flights && (
-                <div className="mt-6 text-left">
-                  <h2 className="text-xl font-bold mb-4">Available Flights:</h2>
-                  <ul className="space-y-2">
-                    {flights.map((flight, index) => (
-                      <li key={index} className="p-3 bg-gray-100 rounded-lg dark:bg-gray-700">
-                        ✈️ {flight.airline} - {flight.departure} ➡️ {flight.arrival} - ${flight.price}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </div>
           </div>
         </div>
