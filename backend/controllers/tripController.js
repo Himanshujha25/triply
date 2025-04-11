@@ -48,13 +48,14 @@ Guidelines:
       response.data?.choices?.[0]?.content;
 
     if (!plan) {
-      console.error("No plan content found in response:", response.data);
+      console.error("❌ No plan content found in response:", response.data);
       return res.status(500).json({ message: "No itinerary received from AI." });
     }
 
     res.status(200).json({ travelPlan: plan });
   } catch (error) {
-    console.error("❌ Error generating travel plan:", error.response?.data || error.message);
+    console.error("❌ Error generating travel plan:");
+    console.error(error.response?.data || error.message || error);
     res.status(500).json({ message: "Failed to generate travel plan." });
   }
 };

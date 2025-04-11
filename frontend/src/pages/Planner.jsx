@@ -26,7 +26,7 @@ const Planner = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://ai-travel-planner-dwzv.onrender.com/api/travel", {
+      const response = await fetch("http://localhost:3000/api/travel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,17 +46,20 @@ const Planner = () => {
 
       let itinerary = [];
       let currentDay = null;
-
+      
       lines.forEach((line) => {
-        const dayMatch = line.match(/day\s*(\d+)/i);
+        const trimmed = line.trim();
+        const dayMatch = trimmed.match(/^Day\s*(\d+):/i); // only match if line starts with Day X:
+      
         if (dayMatch) {
           currentDay = parseInt(dayMatch[1]);
-          itinerary.push({ day: currentDay, activity: "" });
-        } else if (line.trim() && currentDay !== null) {
+          itinerary.push({ day: currentDay, activity: trimmed });
+        } else if (trimmed && currentDay !== null) {
           let last = itinerary[itinerary.length - 1];
-          last.activity += last.activity ? `\n${line.trim()}` : line.trim();
+          last.activity += `\n${trimmed}`;
         }
       });
+      
 
       setLoading(false);
       navigate("/itinerary", {
