@@ -1,4 +1,5 @@
 const axios = require("axios");
+const Itinerary = require("../models/Itinerary"); // 👈 Import MongoDB model
 
 exports.travelPlanner = async (req, res) => {
   try {
@@ -14,13 +15,6 @@ The traveler's total budget is ${budget} USD. Interests: ${interests || "general
 
 Format:
 Day X: Activity 1 (estimated cost), Activity 2 (estimated cost), etc.
-
-Guidelines:
-- Stay within the budget
-- Include top attractions & hidden gems
-- Suggest food, transport, and local tips
-- Mention estimated cost in USD after each activity
-- Ensure total cost doesn’t exceed budget
 `;
 
     const response = await axios.post(
@@ -52,7 +46,38 @@ Guidelines:
       return res.status(500).json({ message: "No itinerary received from AI." });
     }
 
-    res.status(200).json({ travelPlan: plan });
+    // 🧠 Parse the plan into structured format
+    const lines = plan.trim().split("\n");
+    const structuredItinerary = [];
+    let currentDay = null;
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+      const match = trimmed.match(/^Day\s*(\d+):/i);
+      if (match) {
+        currentDay = parseInt(match[1]);
+        structuredItinerary.push({ day: currentDay, activity: trimmed });
+      } else if (currentDay !== null && trimmed) {
+        structuredItinerary[structuredItinerary.length - 1].activity += ` ${trimmed}`;
+      }
+    });
+
+    // 💾 Save to MongoDB
+    const savedItinerary = await Itinerary.create({
+      destination,
+      startDate,
+      endDate,
+      interests,
+      budget,
+      itinerary: structuredItinerary
+    });
+
+    res.status(200).json({
+      message: "Travel plan generated and saved successfully",
+      travelPlan: plan,
+      id: savedItinerary._id,
+    });
+
   } catch (error) {
     console.error("❌ Error generating travel plan:");
     console.error(error.response?.data || error.message || error);

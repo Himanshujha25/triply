@@ -1,35 +1,43 @@
 import React, { useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaPlaneDeparture, FaCalendarAlt, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import triply from "../assets/ChatGPT Image Apr 7, 2025, 08_48_52 PM.png";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";
 
-// ✅ Reusable Input Field Component
-const Input = ({ label, value, onChange, placeholder, autoFocus = false }) => (
-  <div className="w-full">
-    <label className="block text-sm font-semibold text-gray-300 mb-1">{label}</label>
-    <input
-      type="text"
-      placeholder={placeholder}
-      value={value}
-      autoFocus={autoFocus}
-      onChange={(e) => onChange(e.target.value)}
-      className="w-full p-3 rounded-xl bg-gray-950 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-200 hover:border-teal-500 placeholder-gray-400"
-    />
+// ✅ Reusable Input Field Component with improved styling
+const Input = ({ label, value, onChange, placeholder, autoFocus = false, icon }) => (
+  <div className="w-full group">
+    <label className="block text-sm font-semibold text-gray-300 mb-2 transition-all group-hover:text-teal-400">{label}</label>
+    <div className="relative">
+      {icon && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-teal-400">{icon}</span>}
+      <input
+        type="text"
+        placeholder={placeholder}
+        value={value}
+        autoFocus={autoFocus}
+        onChange={(e) => onChange(e.target.value)}
+        className={`w-full p-3 ${icon ? 'pl-10' : 'pl-3'} rounded-xl bg-gray-950 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 hover:border-teal-500 placeholder-gray-400 shadow-sm`}
+      />
+    </div>
   </div>
 );
 
-// ✅ Date Input Component
+// ✅ Date Input Component with improved styling
 const InputDate = ({ label, value, onChange }) => (
-  <div className="w-full">
-    <label className="block text-sm font-semibold text-gray-300 mb-1">{label}</label>
-    <input
-      type="date"
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className="w-full p-3 rounded-xl bg-gray-950 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-200 hover:border-teal-500"
-    />
+  <div className="w-full group">
+    <label className="block text-sm font-semibold text-gray-300 mb-2 transition-all group-hover:text-teal-400">{label}</label>
+    <div className="relative">
+      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-teal-400">
+        <FaCalendarAlt />
+      </span>
+      <input
+        type="date"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full p-3 pl-10 rounded-xl bg-gray-950 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 hover:border-teal-500 shadow-sm"
+      />
+    </div>
   </div>
 );
 
@@ -112,77 +120,107 @@ const Planner = () => {
         className="min-h-screen bg-cover bg-center text-gray-100 flex flex-col justify-between"
         style={{ backgroundImage: `url(${bg})` }}
       >
-        <div className="flex-1 bg-black/50 backdrop-blur-sm px-4 py-1">
-          <div className="mb-0">
-            <Link
-              to="/"
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-gray-800 hover:bg-gray-700 text-sm md:text-base font-medium transition-all duration-200"
-            >
-              <FaArrowLeft />
-              Back To Home
-            </Link>
-          </div>
+        <div className="flex-1 bg-black/60 backdrop-blur-md px-4 py-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-6">
+              <Link
+                to="/"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gray-800 hover:bg-gray-700 text-sm md:text-base font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <FaArrowLeft className="text-teal-400" />
+                Back To Home
+              </Link>
+            </div>
 
-          <div className="text-center mb-8">
-            <img
-              src={triply}
-              alt="Triply Logo"
-              className="w-20 h-20 md:w-24 md:h-24 rounded-full mx-auto object-cover hover:scale-105 transition-transform shadow-lg"
-            />
-            <h1 className="text-3xl md:text-4xl font-extrabold mt-4 text-teal-400">Plan Your Trip 🧭</h1>
-            <p className="text-md md:text-lg text-gray-300 mt-3">Smart suggestions tailored for your adventure</p>
-          </div>
-
-          <form
-            onSubmit={handleGenerate}
-            className="max-w-5xl mx-auto mt-1 bg-gray-900/80 p-6 md:p-10 rounded-3xl shadow-2xl space-y-8 mb-10 border border-gray-700/50"
-          >
-            {/* Trip Information */}
-            <div>
-              <h2 className="text-2xl font-semibold text-teal-400 mb-3 flex items-center gap-2">
-                ✈️ Trip Information
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="From" value={from} onChange={setFrom} placeholder="e.g., Delhi" autoFocus />
-                <Input label="Destination" value={destination} onChange={setDestination} placeholder="e.g., Paris" />
-                <Input label="Budget" value={budget} onChange={setBudget} placeholder="e.g., $1000" />
-                <Input
-                  label="Preferences"
-                  value={preferences}
-                  onChange={setPreferences}
-                  placeholder="e.g., hiking, beaches"
+            <div className="text-center mb-10 animate-fade-in">
+              <div className="relative inline-block">
+                <div className="absolute inset-0 bg-teal-500/20 rounded-full blur-xl"></div>
+                <img
+                  src={triply}
+                  alt="Triply Logo"
+                  className="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto object-cover relative z-10 hover:scale-105 transition-transform duration-300 shadow-lg border-2 border-teal-400"
                 />
               </div>
+              <h1 className="text-3xl md:text-5xl font-extrabold mt-6 bg-gradient-to-r from-teal-300 to-teal-500 text-transparent bg-clip-text">Plan Your Trip 🧭</h1>
+              <p className="text-md md:text-lg text-gray-300 mt-3 max-w-2xl mx-auto">Smart AI-powered suggestions tailored for your adventure, creating memorable experiences.</p>
             </div>
 
-            {/* Travel Dates */}
-            <div>
-              <h2 className="text-2xl font-semibold text-teal-400 mb-3 flex items-center gap-2">
-                📅 Travel Dates
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <InputDate label="Arrival Date" value={arrivalDate} onChange={setArrivalDate} />
-                <InputDate label="Departure Date" value={departureDate} onChange={setDepartureDate} />
-              </div>
-            </div>
-
-            {/* Submit Button */}
-            <div className="text-center">
-              {loading ? (
-                <div className="flex justify-center items-center gap-3">
-                  <div className="animate-spin h-10 w-10 border-4 border-teal-500 border-t-transparent rounded-full" />
-                  <p className="text-base text-white">Generating itinerary...</p>
+            <form
+              onSubmit={handleGenerate}
+              className="max-w-5xl mx-auto mt-4 bg-gray-900/90 p-8 md:p-10 rounded-3xl shadow-2xl space-y-10 mb-10 border border-gray-700/50 backdrop-blur-sm transform transition-all duration-500 hover:shadow-teal-900/20"
+            >
+              {/* Trip Information */}
+              <div>
+                <h2 className="text-2xl font-semibold text-teal-400 mb-5 flex items-center gap-3 border-b border-gray-700/50 pb-3">
+                  <FaPlaneDeparture className="text-teal-500" />
+                  Trip Information
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                  <Input 
+                    label="From" 
+                    value={from} 
+                    onChange={setFrom} 
+                    placeholder="e.g., Delhi" 
+                    autoFocus 
+                    icon={<FaUser />}
+                  />
+                  <Input 
+                    label="Destination" 
+                    value={destination} 
+                    onChange={setDestination} 
+                    placeholder="e.g., Paris" 
+                    icon={<FaPlaneDeparture />}
+                  />
+                  <Input 
+                    label="Budget" 
+                    value={budget} 
+                    onChange={setBudget} 
+                    placeholder="e.g., $1000" 
+                    icon={<span className="font-bold">$</span>}
+                  />
+                  <Input
+                    label="Preferences"
+                    value={preferences}
+                    onChange={setPreferences}
+                    placeholder="e.g., hiking, beaches"
+                    icon={<span>✦</span>}
+                  />
                 </div>
-              ) : (
-                <button
-                  type="submit"
-                  className="bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-600 hover:to-teal-800 text-white text-lg px-10 py-3 rounded-full font-bold transition-all duration-300 shadow-md hover:shadow-lg"
-                >
-                  🧳 Generate Itinerary
-                </button>
-              )}
-            </div>
-          </form>
+              </div>
+
+              {/* Travel Dates */}
+              <div>
+                <h2 className="text-2xl font-semibold text-teal-400 mb-5 flex items-center gap-3 border-b border-gray-700/50 pb-3">
+                  <FaCalendarAlt className="text-teal-500" />
+                  Travel Dates
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                  <InputDate label="Arrival Date" value={arrivalDate} onChange={setArrivalDate} />
+                  <InputDate label="Departure Date" value={departureDate} onChange={setDepartureDate} />
+                </div>
+              </div>
+
+              {/* Submit Button */}
+              <div className="text-center pt-4">
+                {loading ? (
+                  <div className="flex justify-center items-center gap-3 py-3">
+                    <div className="relative w-16 h-16">
+                      <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-500/30 rounded-full"></div>
+                      <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                    <p className="text-lg text-white font-medium">Creating your dream itinerary<span className="animate-pulse">...</span></p>
+                  </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="bg-gradient-to-r from-teal-500 to-teal-700 hover:from-teal-400 hover:to-teal-600 text-white text-lg px-12 py-4 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 hover:shadow-teal-500/20"
+                  >
+                    🧳 Generate Your Itinerary
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
         </div>
 
         <Footer />
