@@ -45,7 +45,7 @@ const Accommodation = () => {
     setError('');
     
     try {
-      const res = await axios.get(`http://localhost:3001/api/accommodation/search`, {
+      const res = await axios.get(`https://ai-travel-planner-dwzv.onrender.com/api/accommodation/search`, {
         params: {
           city,
           check_in_date: checkIn,

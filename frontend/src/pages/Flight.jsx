@@ -34,7 +34,7 @@ const Flight = () => {
         from,
       });
 
-      const response = await fetch("http://localhost:3001/api/flights", {
+      const response = await fetch("https://ai-travel-planner-dwzv.onrender.com/api/flights", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
