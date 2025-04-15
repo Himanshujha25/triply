@@ -66,7 +66,7 @@ const Navbar = () => {
             <motion.img
               src={triply}
               alt="triply"
-              className="w-14 h-14 rounded-full shadow-inner border border-indigo-300/30"
+              className="w-15 h-15 rounded-full shadow-inner border border-indigo-300/30 "
               whileHover={{ rotate: 10, scale: 1.05 }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             />
@@ -153,9 +153,9 @@ const Navbar = () => {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden bg-gray-800/95 backdrop-blur-lg"
+            className="md:hidden bg-gray-800/95 backdrop-blur-lg mt-1"
           >
-            <div className="px-4 pt-2 pb-4 space-y-3">
+            <div className="px-5 pt-2 pb-2 space-y-3">
               <a
                 href="#destinations"
                 className="block text-gray-300 hover:text-indigo-400 py-2 flex items-center gap-2"
@@ -172,14 +172,7 @@ const Navbar = () => {
                 <MdHotel />
                 <span>Accommodations</span>
               </a>
-              <div className="relative py-2">
-                <input
-                  type="text"
-                  placeholder="Search destinations..."
-                  className="w-full bg-gray-700/50 text-gray-200 rounded-full pl-10 pr-4 py-2 border border-indigo-500/30 focus:outline-none focus:ring-2 focus:ring-indigo-500/40"
-                />
-                <FaSearch className="absolute left-3 top-5 text-gray-400" />
-              </div>
+             
               <div className="flex justify-between items-center pt-2">
                 <div className="flex text-sm items-center gap-2 font-medium text-indigo-300">
                   <span className="relative flex h-3 w-3">
@@ -187,17 +180,6 @@ const Navbar = () => {
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-500"></span>
                   </span>
                   AI Agent Online
-                </div>
-                <div className="flex gap-4">
-                  <button className="text-gray-300 hover:text-indigo-400 transition-colors relative">
-                    <MdNotifications className="w-6 h-6" />
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">
-                      2
-                    </span>
-                  </button>
-                  <button className="text-gray-300 hover:text-indigo-400 transition-colors">
-                    <FaUserCircle className="w-6 h-6" />
-                  </button>
                 </div>
               </div>
             </div>
