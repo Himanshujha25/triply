@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const accommodation = require('./controllers/accommodation');
 const tripController = require("./controllers/tripController");
 const flightController = require("./controllers/flightController");
+const googleMapsController = require('./controllers/googleMapsController');
 
 require("dotenv").config();
 

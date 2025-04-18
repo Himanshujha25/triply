@@ -3,7 +3,7 @@ import axios from "axios";
 
 const UNSPLASH_ACCESS_KEY = "-YpAyH-nWooFTprn1BjwjCwDgYLQmyAJoU9KrEJVTz4"
 
-export const fetchImageFromUnsplash = async (query) => {
+ export const fetchImageFromUnsplash = async (query) => {
   try {
     const res = await axios.get(
       `https://api.unsplash.com/search/photos`,

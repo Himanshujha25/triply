@@ -1,6 +1,7 @@
 const axios = require("axios");
 const Itinerary = require("../models/Itinerary"); // 👈 Import MongoDB model
 
+
 exports.travelPlanner = async (req, res) => {
   try {
     const { destination, startDate, endDate, interests, budget } = req.body;
@@ -22,7 +23,7 @@ Day X: Activity 1 (estimated cost), Activity 2 (estimated cost), etc.
       {
         model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
         messages: [
-          { role: "system", content: "You are a helpful travel planner assistant." },
+          { role: "system", content: "You are a helpful travel planner assistant. and dont add shopping in travelling ande also be practical guid" },
           { role: "user", content: prompt }
         ],
         temperature: 0.7,

@@ -142,7 +142,7 @@ const Flight = () => {
                 {from || "Unknown"} → {destination || "Unknown"}
               </p>
               <p className="text-gray-600 dark:text-gray-400">
-                {departureDate || "N/A"} - {arrivalDate || "N/A"}
+                {arrivalDate || "N/A"} - { departureDate|| "N/A"}
               </p>
             </div>
             
