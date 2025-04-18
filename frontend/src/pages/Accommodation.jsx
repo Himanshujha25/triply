@@ -12,6 +12,9 @@ import {
   faSpinner,
   faMoneyBillWave
 } from '@fortawesome/free-solid-svg-icons';
+import Footer from '../components/Footer';
+import bg from '../assets/bg.png';
+import Navbar from '../components/Navbar';
 
 const Accommodation = () => {
   const [city, setCity] = useState('');
@@ -85,7 +88,8 @@ const Accommodation = () => {
     const halfStar = rating % 1 >= 0.5 ? 1 : 0;
     
     return (
-      <div className="flex items-center">
+      
+      <div className="flex items-center"  >
         {[...Array(fullStars)].map((_, i) => (
           <FontAwesomeIcon key={i} icon={faStar} className="text-yellow-400 w-4 h-4" />
         ))}
@@ -95,8 +99,8 @@ const Accommodation = () => {
         <span className="ml-2 text-sm font-medium text-gray-600">
           ({rating.toFixed(1)})
         </span>
-      </div>
-    );
+      </div>)
+
   };
 
   const renderAmenities = (amenities) => {
@@ -104,9 +108,9 @@ const Accommodation = () => {
     const visibleAmenities = showAllAmenities ? amenities : amenities.slice(0, 12);
     
     return (
-      <div className="mt-6">
+      <div className="mt-6" >
         <h3 className="text-lg font-medium text-gray-800 mb-3">Amenities</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2" >
           {visibleAmenities.map((amenity, index) => (
             <div key={index} className="flex items-center text-sm text-gray-600">
               <span className="mr-2 text-green-500">✓</span>
@@ -164,7 +168,11 @@ const Accommodation = () => {
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center">
-            <FontAwesomeIcon icon={faBed} className="text-blue-200 text-4xl" />
+            <img 
+              src={hotel.image}
+              alt={hotel.name}
+              className="w-24 h-24 object-cover"
+            />
           </div>
         )}
         <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60">
@@ -181,18 +189,23 @@ const Accommodation = () => {
       <div className="p-4">
         <div className="flex items-center text-sm text-gray-500 mb-2">
           <FontAwesomeIcon icon={faMapMarkerAlt} className="mr-2 text-blue-400" />
-          <span className="truncate">{hotel.address || 'Address not available'}</span>
+          <span className="truncate">{hotel.name}</span>
         </div>
         
         {hotel.description && (
           <p className="text-gray-600 text-sm mb-3 line-clamp-2">{hotel.description}</p>
         )}
+
+        {renderImageGallery(hotel.images.slice(0, 4))}
       </div>
     </div>
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <>
+    <Navbar/>
+    <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen" style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' ,  }}>
+    <div className="max-w-7xl mx-auto px-4 py-8" >
       <h1 className="text-4xl font-bold text-gray-900 mb-8 flex items-center">
         <FontAwesomeIcon icon={faBed} className="mr-3 text-blue-500" />
         Find Your Perfect Stay
@@ -411,8 +424,13 @@ const Accommodation = () => {
             No hotels found. Try adjusting your search criteria.
           </p>
         </div>
+
       )}
+ 
     </div>
+    <Footer />
+    </div>
+  </>
   );
 };
 

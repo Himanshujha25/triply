@@ -166,7 +166,7 @@ const Footer = () => {
               <li className="flex items-center">
                 <FaEnvelope className="text-indigo-400 mr-3" />
                 <a href="mailto:himanshjha930@gmail.com" className="text-gray-400 hover:text-indigo-400 transition-colors duration-300">
-                  himanshjha930@gmail.com
+                jhahimanshu930@gmail.com
                 </a>
               </li>
             </ul>
@@ -186,7 +186,7 @@ const Footer = () => {
                   className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-r-lg px-3 transition-colors duration-300"
                   aria-label="Subscribe"
                 >
-                  Join
+                  Join 
                 </button>
               </form>
             </div>
@@ -203,9 +203,9 @@ const Footer = () => {
           </div>
           
           <div className="flex items-center">
-            <span className="mr-2">Made with</span>
-            <FaHeart className="text-red-500 mx-1" />
-            <span className="ml-1">by</span>
+            <span >Made with ❤️</span>
+       
+            <span >by</span>
             <span className="ml-1 font-semibold text-indigo-400">Cybernexus</span>
           </div>
           

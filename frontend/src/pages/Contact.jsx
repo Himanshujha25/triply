@@ -182,7 +182,7 @@ function ContactPage({ darkMode, setDarkMode }) {
                     </div>
                     <div>
                       <h3 className="text-xl font-semibold text-white">Email Us</h3>
-                      <p className="text-indigo-300 mt-1">himanshjha930@gmail.com</p>
+                      <p className="text-indigo-300 mt-1">jhahimanshu930@gmail.com</p>
                       <p className="text-gray-400 text-sm mt-1">We'll respond within 24 hours</p>
                     </div>
                   </motion.div>

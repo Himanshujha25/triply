@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@api/fsq-developers": "file:.api/apis/fsq-developers",
     "@google/generative-ai": "^0.21.0",
     "axios": "^1.8.4",
     "body-parser": "^1.20.3",

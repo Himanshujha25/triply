@@ -59,6 +59,15 @@ const Planner = () => {
       alert("Please fill in all fields.");
       return;
     }
+    if (arrivalDate > departureDate) {
+      alert("Arrival date cannot be after departure date.");
+      return;
+    }
+    if (new Date(arrivalDate) < new Date()) {
+      alert("Arrival date cannot be in the past.");
+      return;
+    }
+
 
     setLoading(true);
 

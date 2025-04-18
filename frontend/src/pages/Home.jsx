@@ -188,9 +188,9 @@ function HomePage() {
                   repeat: Infinity, 
                   repeatDelay: 3
                 }}
-                className="inline-block"
+                className="inline-block mt-1"
               >
-                🧭
+                ✈️
               </motion.span>
             </motion.h1>
 

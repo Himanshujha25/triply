@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import triply from "../assets/ChatGPT Image Apr 7, 2025, 08_48_52 PM.png";
 import { FaRobot, FaBars, FaTimes, FaSearch, FaUserCircle } from "react-icons/fa";
-import { MdNotifications, MdFlight, MdHotel } from "react-icons/md";
+import {  MdFlight, MdHotel } from "react-icons/md";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
@@ -75,7 +75,7 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              Triply AI
+              <a href="/" >Triply AI</a>
             </motion.span>
           </div>
 
@@ -157,7 +157,7 @@ const Navbar = () => {
           >
             <div className="px-5 pt-2 pb-2 space-y-3">
               <a
-                href="#destinations"
+                href="/destinations"
                 className="block text-gray-300 hover:text-indigo-400 py-2 flex items-center gap-2"
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -165,7 +165,7 @@ const Navbar = () => {
                 <span>Destinations</span>
               </a>
               <a
-                href="#accommodations"
+                href="/accommodations"
                 className="block text-gray-300 hover:text-indigo-400 py-2 flex items-center gap-2"
                 onClick={() => setIsMenuOpen(false)}
               >
