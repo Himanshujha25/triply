@@ -34,12 +34,27 @@ app.get('/api/accommodation/search', accommodation.searchAccommodation);
 app.get("/getPlaceImage", async (req, res) => {
   const { destination, days } = req.query;
 
+  // Check if destination or days are missing
   if (!destination || !days) {
-    return res.status(400).json({ error: "Destination and days required" });
+    return res.status(400).json({ error: "Destination and days are required" });
   }
 
-  const images = await getPlaceImage(destination, parseInt(days), process.env.GOOGLE_API_KEY);
-  res.json({ images });
+  try {
+    // Fetch images using getPlaceImage
+    const images = await getPlaceImage(destination, parseInt(days), process.env.GOOGLE_API_KEY);
+
+    // Check if no images were found
+    if (!images || images.length === 0) {
+      return res.status(404).json({ error: "No images found for the destination" });
+    }
+
+    // Send the images back as a response
+    res.json({ images });
+  } catch (error) {
+    // Log the error and send a generic error message
+    console.error("Error fetching images:", error);
+    res.status(500).json({ error: "Internal server error while fetching images" });
+  }
 });
 
 
