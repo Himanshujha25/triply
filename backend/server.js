@@ -14,7 +14,11 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'https://triply-2-o.onrender.com', // Allow only the specified domain
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json()); // Handles JSON body parsing (no need for body-parser)
 connectDB();
 
