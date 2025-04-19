@@ -8,6 +8,8 @@ import Flight from './pages/Flight';
 import DestinationPage from './pages/TravelDestinations';
 import Accommodation from './pages/Accommodation';
 import './App.css';
+import PlaceImage from './pages/placeImage';
+
 
 function App() {
   // Ensure dark mode class is always applied
@@ -24,6 +26,7 @@ function App() {
         <Route path='/Flight' element={<Flight/>}/>
         <Route path='/destinations' element={<DestinationPage/>}/>
         <Route path='/Accommodations' element={<Accommodation/>}/>
+        <Route path='/placeImage' element={<PlaceImage/>}/>
       </Routes>
     </Router>
   );

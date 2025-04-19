@@ -43,29 +43,41 @@ const Itinerary = () => {
   // Fetch image for each day based on activity or fallback to destination
   useEffect(() => {
     const fetchImages = async () => {
-      if (!itinerary) return;
-      
+      if (!itinerary || !destination) return;
+  
       setLoading(true);
-      const imageMap = {};
-      for (const item of itinerary) {
-        const query = item.activity || destination;
-        const img = await fetchImageFromUnsplash(query);
-        imageMap[item.day] = img;
+  
+      try {
+        // Fetch all required images from your backend
+        const response = await fetch(
+          `http://localhost:3000/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`
+        );
+        const data = await response.json();
+  
+        const imageMap = {};
+        itinerary.forEach((item, index) => {
+          imageMap[item.day] = data.images[index]; // one image per day
+        });
+  
+        setImages(imageMap);
+      } catch (err) {
+        console.error("Error fetching images:", err);
       }
-      setImages(imageMap);
+  
       setLoading(false);
     };
-
+  
     fetchImages();
   }, [itinerary, destination]);
+  
 
   // Format dates for display
   const formatDate = (dateString) => {
     if (!dateString) return "";
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
-      month: 'short', 
       day: 'numeric', 
+      month: 'short', 
       year: 'numeric' 
     });
   };

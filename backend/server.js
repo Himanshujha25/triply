@@ -7,7 +7,7 @@ const connectDB = require("./config/db");
 const accommodation = require('./controllers/accommodation');
 const tripController = require("./controllers/tripController");
 const flightController = require("./controllers/flightController");
-const googleMapsController = require('./controllers/googleMapsController');
+const getPlaceImage = require("./utils/getPlaceImage");
 
 require("dotenv").config();
 
@@ -22,6 +22,18 @@ connectDB();
 app.post("/api/travel", tripController.travelPlanner);
 app.post("/api/flights", flightController.searchFlights);
 app.get('/api/accommodation/search', accommodation.searchAccommodation); 
+
+app.get("/getPlaceImage", async (req, res) => {
+  const { destination, days } = req.query;
+
+  if (!destination || !days) {
+    return res.status(400).json({ error: "Destination and days required" });
+  }
+
+  const images = await getPlaceImage(destination, parseInt(days), process.env.GOOGLE_API_KEY);
+  res.json({ images });
+});
+
 
 
 // Fallback route for unhandled paths
