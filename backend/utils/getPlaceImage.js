@@ -1,4 +1,4 @@
-const getPlaceImage = async (destination, days, apiKey) => {
+const getPlaceImages = async (destination, days, apiKey) => {
   try {
     console.log(`Searching for place: ${destination}`);
     // 1. Get place ID
@@ -83,3 +83,4 @@ const getPlaceImage = async (destination, days, apiKey) => {
     return [];
   }
 };
+module.exports = getPlaceImages

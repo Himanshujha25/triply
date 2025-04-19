@@ -7,7 +7,8 @@ const connectDB = require("./config/db");
 const accommodation = require('./controllers/accommodation');
 const tripController = require("./controllers/tripController");
 const flightController = require("./controllers/flightController");
-const getPlaceImage = require("./utils/getPlaceImage");
+// Check this line in your server.js
+const getPlaceImages = require("./utils/getPlaceImage");
 
 require("dotenv").config();
 
@@ -41,7 +42,7 @@ app.get("/api/getPlaceImage", async (req, res) => {
 
   try {
     // Fetch images using getPlaceImage
-    const images = await getPlaceImage(destination, parseInt(days), process.env.GOOGLE_API_KEY);
+    const images = await getPlaceImages(destination, parseInt(days), process.env.GOOGLE_API_KEY);
 
     // Check if no images were found
     if (!images || images.length === 0) {
