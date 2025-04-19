@@ -4,7 +4,7 @@ const getPlaceImages = async (destination, days, apiKey) => {
     console.log(`Searching for place: ${destination}`);
     // 1. Get place ID
     const searchRes = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destination}&key=${apiKey}`
+      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destination}&key=${process.env.GOOGLE_API_KEY}`
     );
     
     const results = searchRes.data.results;
@@ -19,7 +19,7 @@ const getPlaceImages = async (destination, days, apiKey) => {
     // 2. Get photo references
     console.log(`Fetching details for place ID: ${placeId}`);
     const detailsRes = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${apiKey}`
+      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${process.env.GOOGLE_API_KEY}`
     );
     
     console.log("Place details response status:", detailsRes.status);
@@ -49,7 +49,7 @@ const getPlaceImages = async (destination, days, apiKey) => {
       try {
         console.log(`Fetching photo ${index + 1}/${photoRefs.length}`);
         const res = await axios.get(
-          `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=${ref}&key=${apiKey}`,
+          `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=${ref}&key=${process.env.GOOGLE_API_KEY}`,
           { responseType: "arraybuffer" }
         );
         console.log(`Photo ${index + 1} fetched successfully`);
