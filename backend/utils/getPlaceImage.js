@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const getPlaceImages = async (destination, days, apiKey) => {
+const getPlaceImage = async (destination, days, apiKey) => {
   try {
     // 1. Get place ID
     const searchRes = await axios.get(
@@ -43,4 +43,4 @@ const getPlaceImages = async (destination, days, apiKey) => {
   }
 };
 
-module.exports = getPlaceImages;
+module.exports = getPlaceImage;

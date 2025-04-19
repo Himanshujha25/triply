@@ -51,17 +51,31 @@ const Itinerary = () => {
         // Fetch all required images from your backend
         const response = await fetch(`https://triply-2-o.onrender.com/api/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`);
         const data = await response.json();
-        console.log(data); // Check the response content here
         
-  
+        if (data.error) {
+          console.error("API error:", data.error);
+          setImages({});  // Set empty object to prevent mapping errors
+          return;
+        }
+        
+        if (!data.images || !Array.isArray(data.images)) {
+          console.error("Invalid image data format:", data);
+          setImages({});
+          return;
+        }
+        
         const imageMap = {};
         itinerary.forEach((item, index) => {
-          imageMap[item.day] = data.images[index]; // one image per day
+          // Only map if the image at that index exists
+          if (data.images[index]) {
+            imageMap[item.day] = data.images[index];
+          }
         });
   
         setImages(imageMap);
       } catch (err) {
         console.error("Error fetching images:", err);
+        setImages({});
       }
   
       setLoading(false);
