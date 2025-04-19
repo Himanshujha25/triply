@@ -72,7 +72,7 @@ const hardcodedDestinations = [
     rating: 4.5,
     reviews: 1560,
     description: "An exotic city of immense beauty, Marrakech entices visitors with its medina, vibrant souks, palaces, gardens, and unique cultural experiences.",
-    image: "https://images.unsplash.com/photo-1553512313-64af79fdfe9d?q=80&w=1080",
+    image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&q=80&w=1080",
     priceLevel: "moderate",
     tags: ["culture", "shopping", "architecture", "food"],
     activities: [
