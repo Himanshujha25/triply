@@ -16,10 +16,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://triplyv2-himanshujha25s-projects.vercel.app', // Allow only the specified domain
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: 'https://triplyv2-himanshujha25s-projects.vercel.app',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true
 }));
+
 app.use(express.json()); // Handles JSON body parsing (no need for body-parser)
 connectDB();
 
