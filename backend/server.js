@@ -15,7 +15,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'https://triply-2-o.onrender.com', // Allow only the specified domain
+  origin: 'https://triplyv2-himanshujha25s-projects.vercel.app', // Allow only the specified domain
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
