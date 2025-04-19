@@ -1,82 +1,73 @@
 const axios = require("axios");
+
 const getPlaceImages = async (destination, days, apiKey) => {
   try {
     console.log(`Searching for place: ${destination}`);
-    // 1. Get place ID
+
+    // 1. Text Search to get place and initial photo references
     const searchRes = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${destination}&key=${process.env.GOOGLE_API_KEY}`
+      `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(destination)}&key=${apiKey}`
     );
-    
+
     const results = searchRes.data.results;
     if (!results || results.length === 0) {
       console.log("No places found for the destination");
       throw new Error("No place found");
     }
-    
-    const placeId = results[0].place_id;
-    console.log(`Found place ID: ${placeId}`);
-    
-    // 2. Get photo references
-    console.log(`Fetching details for place ID: ${placeId}`);
-    const detailsRes = await axios.get(
-      `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${process.env.GOOGLE_API_KEY}`
-    );
-    
-    console.log("Place details response status:", detailsRes.status);
-    console.log("Place details result:", detailsRes.data.result);
-    
-    // Check if there's a 'photos' property in the result
-    if (!detailsRes.data.result || !detailsRes.data.result.photos) {
-      console.log("No photos property in result");
-      throw new Error("No photos found in place details");
-    }
-    
-    const photos = detailsRes.data.result.photos;
+
+    const place = results[0];
+    console.log(`Found place ID: ${place.place_id}`);
+    let photos = place.photos;
+
+    // 2. Fallback to Place Details if no photos in initial search
     if (!photos || photos.length === 0) {
-      console.log("Photos array is empty");
-      throw new Error("No photos found");
+      console.log("No photos in initial result, fetching place details...");
+      const detailsRes = await axios.get(
+        `https://maps.googleapis.com/maps/api/place/details/json?placeid=${place.place_id}&key=${apiKey}`
+      );
+
+      const details = detailsRes.data.result;
+      if (details && details.photos && details.photos.length > 0) {
+        photos = details.photos;
+      } else {
+        console.log("No photos found in place details");
+        throw new Error("No photos found for this place");
+      }
     }
-    
+
     console.log(`Found ${photos.length} photos, using up to ${days}`);
-    
-    // 3. Limit photos to 'days' or available length
     const photoRefs = photos.slice(0, days).map(p => p.photo_reference);
     console.log("Photo references:", photoRefs);
-    
-    // 4. Convert all to base64
-    console.log("Starting to fetch photo data...");
+
+    // 3. Fetch photos as base64
     const imagePromises = photoRefs.map(async (ref, index) => {
       try {
         console.log(`Fetching photo ${index + 1}/${photoRefs.length}`);
         const res = await axios.get(
-          `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=${ref}&key=${process.env.GOOGLE_API_KEY}`,
+          `https://maps.googleapis.com/maps/api/place/photo?maxwidth=600&photoreference=${ref}&key=${apiKey}`,
           { responseType: "arraybuffer" }
         );
-        console.log(`Photo ${index + 1} fetched successfully`);
         const contentType = res.headers["content-type"];
         const base64Image = Buffer.from(res.data, "binary").toString("base64");
         return `data:${contentType};base64,${base64Image}`;
       } catch (photoError) {
         console.error(`Error fetching photo ${index + 1}:`, photoError.message);
-        return null;  // Return null for failed photos
+        return null;
       }
     });
-    
-    console.log("Waiting for all photo promises to resolve...");
+
     const images = await Promise.all(imagePromises);
-    
-    // Filter out any null values (failed photos)
     const validImages = images.filter(img => img !== null);
     console.log(`Successfully processed ${validImages.length} out of ${photoRefs.length} photos`);
-    
+
     if (validImages.length === 0) {
       throw new Error("Failed to retrieve any valid photos");
     }
-    
+
     return validImages;
-    
+
   } catch (error) {
-    console.error("Error in getPlaceImage:", error.message);
+    console.error("Error in getPlaceImages:", error.message);
     if (error.response) {
       console.error("Response data:", error.response.data);
       console.error("Response status:", error.response.status);
@@ -84,4 +75,5 @@ const getPlaceImages = async (destination, days, apiKey) => {
     return [];
   }
 };
-module.exports = getPlaceImages
+
+module.exports = getPlaceImages;
