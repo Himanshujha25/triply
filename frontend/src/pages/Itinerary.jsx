@@ -50,8 +50,9 @@ const Itinerary = () => {
       try {
         // Fetch all required images from your backend
         const response = await fetch(
-          `http://localhost:3000/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`
+          `https://triply-2-o.onrender.com/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`
         );
+        
         const data = await response.json();
   
         const imageMap = {};

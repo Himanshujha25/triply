@@ -19,6 +19,10 @@ app.use(express.json()); // Handles JSON body parsing (no need for body-parser)
 connectDB();
 
 // Routes
+
+app.get("/", (req, res) => {
+  res.send("Triply backend is running 🚀");
+});
 app.post("/api/travel", tripController.travelPlanner);
 app.post("/api/flights", flightController.searchFlights);
 app.get('/api/accommodation/search', accommodation.searchAccommodation); 

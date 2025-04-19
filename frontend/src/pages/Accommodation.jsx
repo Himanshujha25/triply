@@ -48,13 +48,14 @@ const Accommodation = () => {
     setError('');
     
     try {
-      const res = await axios.get(`https://ai-travel-planner-dwzv.onrender.com/api/accommodation/search`, {
+      const res = await axios.get(`https://triply-2-o.onrender.com/api/accommodation/search`, {
         params: {
           city,
           check_in_date: checkIn,
           check_out_date: checkOut,
         },
       });
+      
       setHotels(Array.isArray(res.data) ? res.data : []);
       setSelectedHotel(null);
     } catch (error) {

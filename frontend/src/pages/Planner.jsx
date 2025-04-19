@@ -72,7 +72,7 @@ const Planner = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://ai-travel-planner-dwzv.onrender.com/api/travel", {
+      const response = await fetch("https://triply-2-o.onrender.com/api/travel", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -84,6 +84,7 @@ const Planner = () => {
           budget,
         }),
       });
+      
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to generate itinerary");

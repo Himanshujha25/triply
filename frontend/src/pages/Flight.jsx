@@ -34,13 +34,14 @@ const Flight = () => {
         from,
       });
 
-      const response = await fetch("https://ai-travel-planner-dwzv.onrender.com/api/flights", {
+      const response = await fetch("https://triply-2-o.onrender.com/api/flights", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ destination, arrivalDate, departureDate, from }),
       });
+      
 
       const data = await response.json();
       if (response.ok) {
