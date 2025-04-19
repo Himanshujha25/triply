@@ -31,7 +31,7 @@ app.post("/api/travel", tripController.travelPlanner);
 app.post("/api/flights", flightController.searchFlights);
 app.get('/api/accommodation/search', accommodation.searchAccommodation); 
 
-app.get("/getPlaceImage", async (req, res) => {
+app.get("api/getPlaceImage", async (req, res) => {
   const { destination, days } = req.query;
 
   // Check if destination or days are missing
