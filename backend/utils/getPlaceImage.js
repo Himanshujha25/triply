@@ -1,3 +1,4 @@
+const axios = require("axios");
 const getPlaceImages = async (destination, days, apiKey) => {
   try {
     console.log(`Searching for place: ${destination}`);
