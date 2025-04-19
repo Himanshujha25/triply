@@ -43,46 +43,48 @@ const Itinerary = () => {
   // Fetch image for each day based on activity or fallback to destination
   useEffect(() => {
     const fetchImages = async () => {
-      if (!itinerary || !destination) return;
+      if (!itinerary || !destination) return; // Early exit if no itinerary or destination.
   
-      setLoading(true);
+      setLoading(true); // Show loading spinner or state.
   
       try {
-        // Fetch all required images from your backend
-        const response = await fetch(`https://triply-2-o.onrender.com/api/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`);
+        // Fetch all required images from the backend
+        const response = await fetch(
+          `https://triply-2-o.onrender.com/api/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`
+        );
         const data = await response.json();
-        
+  
         if (data.error) {
           console.error("API error:", data.error);
-          setImages({});  // Set empty object to prevent mapping errors
+          setImages(null); // Set to null or empty array to prevent incorrect rendering
           return;
         }
-        
-        if (!data.images || !Array.isArray(data.images)) {
+  
+        if (!Array.isArray(data.images)) {
           console.error("Invalid image data format:", data);
-          setImages({});
+          setImages(null); // Handle invalid response structure
           return;
         }
-        
+  
         const imageMap = {};
         itinerary.forEach((item, index) => {
-          // Only map if the image at that index exists
+          // Map images to each itinerary day, ensuring the image exists for that index
           if (data.images[index]) {
             imageMap[item.day] = data.images[index];
           }
         });
   
-        setImages(imageMap);
+        setImages(imageMap); // Update the state with the mapped images
       } catch (err) {
         console.error("Error fetching images:", err);
-        setImages({});
+        setImages(null); // In case of any error, set images to null
       }
   
-      setLoading(false);
+      setLoading(false); // Stop loading once the request is complete
     };
   
-    fetchImages();
-  }, [itinerary, destination]);
+    fetchImages(); // Execute fetch
+  }, [itinerary, destination]); // Dependency array ensures it runs when itinerary or destination change
   
 
   // Format dates for display
@@ -248,22 +250,23 @@ const Itinerary = () => {
                     
                     {/* Image section */}
                     <div className="relative h-64 md:h-80 overflow-hidden">
-                      {loading ? (
-                        <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                          <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-                        </div>
-                      ) : images[item.day] ? (
-                        <img
-                          src={images[item.day]}
-                          alt={`Image for day ${item.day}`}
-                          className="w-full h-full object-cover transition-transform duration-5000 hover:scale-110"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
-                          <p className="text-gray-400">No image available</p>
-                        </div>
-                      )}
-                    </div>
+  {loading ? (
+    <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+      <div className="w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+  ) : images[item.day] ? (
+    <img
+      src={images[item.day]}
+      alt={`Image for day ${item.day}`}
+      className="w-full h-full object-cover transition-transform duration-700 ease-in-out hover:scale-110"
+    />
+  ) : (
+    <div className="absolute inset-0 bg-gray-800 flex items-center justify-center">
+      <p className="text-gray-400">No image available</p>
+    </div>
+  )}
+</div>
+
                     
                     {/* Activity details */}
                     <div className="p-6">

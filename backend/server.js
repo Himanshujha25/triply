@@ -46,7 +46,7 @@ app.get("/api/getPlaceImage", async (req, res) => {
     const images = await getPlaceImages(destination, parseInt(days), process.env.GOOGLE_API_KEY);
 
     // Check if no images were found
-    if (!images || images.length === 0) {
+    if (!images) {
       return res.status(404).json({ error: "No images found for the destination" });
     }
 
