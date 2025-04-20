@@ -206,7 +206,7 @@ const Accommodation = () => {
     <>
     <Navbar/>
     <div className="bg-gradient-to-b from-gray-50 to-white min-h-screen" style={{ backgroundImage: `url(${bg})`, backgroundSize: 'cover', backgroundPosition: 'center' ,  }}>
-    <div className="max-w-7xl mx-auto px-4 py-8" >
+    <div className="max-w-7xl mx-auto px-4 py-26" >
       <h1 className="text-4xl font-bold text-gray-900 mb-8 flex items-center">
         <FontAwesomeIcon icon={faBed} className="mr-3 text-blue-500" />
         Find Your Perfect Stay

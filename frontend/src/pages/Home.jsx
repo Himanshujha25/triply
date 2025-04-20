@@ -250,11 +250,8 @@ function HomePage() {
           backgroundImage: `url(${bg})`,
           backgroundSize: "110% 110%",
           backgroundPosition: "center",
-          x: parallaxValues.x,
-          y: parallaxValues.y,
-          willChange: "transform"
         }}
-        transition={{ type: "spring", stiffness: 60, damping: 30 }}
+       
       />
 
       {/* Overlay with depth blur effect - reduced blur for better performance */}
@@ -315,7 +312,7 @@ function HomePage() {
         <Navbar />
 
         {/* Hero Section with enhanced animations and ID for visibility tracking */}
-        <header id="hero-section" className="px-6 py-24 text-center">
+        <header id="hero-section" className="px-6 py-28 text-center">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
