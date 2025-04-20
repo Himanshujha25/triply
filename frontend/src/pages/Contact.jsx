@@ -147,9 +147,9 @@ function ContactPage({ darkMode, setDarkMode }) {
     >
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/80 backdrop-blur-sm z-0" />
       <div className="relative z-10">
-        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <Navbar />
 
-        <section className="px-6 py-16 md:py-24">
+        <section className="px-6 py-16 md:py-24 mt-10">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               {/* Left Column: Contact Info */}
@@ -368,7 +368,7 @@ function ContactPage({ darkMode, setDarkMode }) {
                     
                     <Link
                       to="/"
-                      className="text-indigo-300 hover:text-indigo-200 font-medium text-sm transition"
+                      className="text-indigo-300 hover:text-indigo-200 font-medium text-sm transition ml-10 "
                     >
                       Back to Home
                     </Link>

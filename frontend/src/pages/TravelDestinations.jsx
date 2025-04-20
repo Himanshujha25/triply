@@ -455,22 +455,7 @@ const DestinationPage = () => {
   // Available filter options
   const tagOptions = ["beach", "culture", "food", "nature", "adventure", "romantic", "architecture", "spiritual", "shopping", "nightlife", "wildlife", "scenic", "luxury", "budget-friendly"];
   const priceLevelOptions = ["budget", "moderate", "expensive", "luxury"];
-
-  // Get tag icon based on tag name
-  const getTagIcon = (tag) => {
-    switch (tag) {
-      case "beach": return <FaUmbrellaBeach />;
-      case "food": return <FaUtensils />;
-      case "nature": return <IoLeaf />;
-      case "adventure": return <FaMountain />;
-      case "culture": return <FaLandmark />;
-      case "architecture": return <GiCastle />;
-      case "spiritual": return <GiIndianPalace />;
-      case "shopping": return <GiShoppingBag />;
-      case "nightlife": return <MdNightlife />;
-      default: return <MdAttractions />;
-    }
-  };
+ 
 
   useEffect(() => {
     // Focus search input if we came from navbar search

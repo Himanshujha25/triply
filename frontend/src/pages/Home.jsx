@@ -723,14 +723,14 @@ function HomePage() {
             transition={{ duration: 0.8 }}
           >
             {/* FAQ Section */}
-            <section id="faq-section" className="px-6 py-20">
+            <section id="faq-section" className="px-6 mt-[-110px] mb-10 ">
               <div className="max-w-4xl mx-auto">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
-                  className="text-center mb-16"
+                  className="text-center mb-10"
                 >
                   <h2 className="text-4xl font-bold text-white mb-4">
                     Frequently Asked Questions
@@ -748,7 +748,7 @@ function HomePage() {
                     },
                     {
                       question: "Is my personal data safe?",
-                      answer: "Absolutely. never share your data with third parties. Your privacy is our top priority."
+                      answer: "Absolutely. we never share your data with third parties. Your privacy is our top priority."
                     },
                     {
                       question: "Can I modify generated itineraries?",

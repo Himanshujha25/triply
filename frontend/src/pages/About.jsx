@@ -74,7 +74,7 @@ function About() {
         <Navbar />
 
         {/* About Header */}
-        <header className="text-center px-6 py-16 md:py-24">
+        <header className="text-center px-6 py-16 md:py-24 mt-10">
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
