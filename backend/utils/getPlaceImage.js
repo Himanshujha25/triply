@@ -25,7 +25,6 @@ const getPlaceImages = async (destination, days, apiKey) => {
 
     console.log(`Found ${photos.length} photos, fetching up to ${days}`);
 
-    // Fetch photos
     const images = await Promise.all(
       photos.slice(0, days).map(async (photo, index) => {
         try {
@@ -42,7 +41,6 @@ const getPlaceImages = async (destination, days, apiKey) => {
       })
     );
 
-    // Filter out null images
     const validImages = images.filter(img => img);
     if (validImages.length === 0) throw new Error("Failed to retrieve any valid photos");
 

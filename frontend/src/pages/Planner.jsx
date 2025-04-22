@@ -213,13 +213,17 @@ const Planner = () => {
               {/* Submit Button */}
               <div className="text-center pt-4">
                 {loading ? (
-                  <div className="flex justify-center items-center gap-3 py-3">
-                    <div className="relative w-16 h-16">
-                      <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-500/30 rounded-full"></div>
-                      <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-                    </div>
-                    <p className="text-lg text-white font-medium">Creating your dream itinerary<span className="animate-pulse">...</span></p>
-                  </div>
+                <div className="flex flex-col items-center justify-center p-4">
+                <div className="relative w-16 h-16 mb-3">
+                  {/* Static circle */}
+                  <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-500/30 rounded-full"></div>
+                  {/* Spinning circle */}
+                  <div className="absolute top-0 left-0 w-full h-full border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+                <p className="text-base sm:text-lg text-white font-medium text-center">
+                  Creating your dream itinerary<span className="animate-pulse">...</span>
+                </p>
+              </div>
                 ) : (
                   <button
                     type="submit"

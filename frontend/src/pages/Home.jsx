@@ -684,7 +684,7 @@ function HomePage() {
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity, repeatDelay: 5, delay: 1 }}
                   >
-                    5+
+                    3+
                   </motion.div>
                   <div className="text-sm text-gray-300">Api Use</div>
                 </motion.div>
@@ -710,12 +710,11 @@ function HomePage() {
         </section>
 
         {/* CTA Section with enhanced animations and ID for visibility tracking */}
-        {/* CTA Section with enhanced animations and ID for visibility tracking */}
         <section id="cta-section" className="px-6 py-24 mb-12">
           <motion.div
-            className="max-w-4xl mx-auto text-center"
+            className="max-w-5xl mx-auto text-center"
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 10, y: 0 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.8 }}
           >

@@ -12,7 +12,7 @@ function About() {
     {
       name: "Himanshu Jha",
       role: "Team Leader | Full Stack Developer",
-      desc: "Leads development, architecture, and project execution.",
+      desc: "project execution.",
       emoji: "👨‍💻"
     },
     {
@@ -102,7 +102,7 @@ function About() {
           </motion.div>
         </header>
 
-        {/* Stats/Numbers Section */}
+        {/* Numbers Section */}
         <section className="px-6 py-10">
           <motion.div
             initial="hidden"

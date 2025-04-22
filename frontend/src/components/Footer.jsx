@@ -113,7 +113,7 @@ const Footer = () => {
               ].map((link, index) => (
                 <li key={index}>
                   {link.underDevelopment ? (
-                    <span className="text-gray-500 flex items-center cursor-not-allowed">
+                    <span className="text-gray-700 flex items-center cursor-not-allowed">
                       {link.name} <span className="ml-2 text-xs text-indigo-400">(Under Development)</span>
                     </span>
                   ) : link.path.startsWith('http') ? (
@@ -151,7 +151,7 @@ const Footer = () => {
                 "AI & Machine Learning"
               ].map((service, index) => (
                 <li key={index}>
-                  <span className="text-gray-500 cursor-not-allowed">
+                  <span className="text-gray-700 cursor-not-allowed">
                     {service} <span className="ml-1 text-xs text-indigo-400">(Under Development)</span>
                   </span>
                 </li>
@@ -174,21 +174,28 @@ const Footer = () => {
             {/* Newsletter Signup */}
             <div className="mt-6">
               <h4 className="text-sm font-medium text-gray-300 mb-2">Subscribe to our newsletter</h4>
-              <form className="flex">
-                <input 
-                  type="email" 
-                  placeholder="Your email" 
-                  className="bg-gray-800 text-sm rounded-l-lg px-3 py-2 w-full focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-300"
-                  aria-label="Email address"
-                />
-                <button 
-                  type="submit" 
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-r-lg px-3 transition-colors duration-300"
-                  aria-label="Subscribe"
-                >
-                  Join 
-                </button>
-              </form>
+              <form 
+  action="https://formsubmit.co/jhahimanshu930@gmail.com" 
+  method="POST"
+  className="flex"
+>
+  <input 
+    type="email" 
+    name="email"
+    placeholder="Your email" 
+    className="bg-gray-800 text-sm rounded-l-lg px-3 py-2 w-full focus:outline-none focus:ring-1 focus:ring-indigo-500 text-gray-300"
+    aria-label="Email address"
+    required
+  />
+  <button 
+    type="submit" 
+    className="bg-indigo-600 hover:bg-indigo-700 text-white rounded-r-lg px-3 transition-colors duration-300"
+    aria-label="Subscribe"
+  >
+    Join 
+  </button>
+</form>
+
             </div>
           </div>
         </div>
