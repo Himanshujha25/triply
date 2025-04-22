@@ -684,7 +684,7 @@ function HomePage() {
                     animate={{ scale: [1, 1.1, 1] }}
                     transition={{ duration: 2, repeat: Infinity, repeatDelay: 5, delay: 1 }}
                   >
-                    5+
+                    3+
                   </motion.div>
                   <div className="text-sm text-gray-300">Api Use</div>
                 </motion.div>
