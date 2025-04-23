@@ -41,7 +41,7 @@ const Itinerary = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          https://triply-2-o.onrender.com/api/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}
+          `https://triply-2-o.onrender.com/api/getPlaceImage?destination=${encodeURIComponent(destination)}&days=${itinerary.length}`
         );
         const data = await response.json();
         if (data.error || !Array.isArray(data.images)) {
@@ -62,6 +62,7 @@ const Itinerary = () => {
     };
     fetchImages();
   }, [itinerary, destination]);
+  
 
   // Fetch weather forecast
   const fetchWeatherForecast = async () => {
