@@ -27,6 +27,9 @@ const transportController = {
         geocode(destination)
       ]);
 
+      console.log("From coordinates:", fromCoords);
+      console.log("To coordinates:", toCoords);
+
       const modes = {
         car: 'driving-car',
         walking: 'foot-walking',
@@ -47,11 +50,16 @@ const transportController = {
           }
         );
 
+        if (!response.data.features[0].properties.segments[0]) {
+          return res.status(500).json({ success: false, message: `No data found for mode: ${mode}` });
+        }
+
         const segment = response.data.features[0].properties.segments[0];
         const distanceKm = (segment.distance / 1000).toFixed(2);
         const durationHr = (segment.duration / 3600).toFixed(2);
 
-        // Base price for car, walking, bicycle
+        console.log(`Mode: ${mode}, Distance: ${distanceKm}, Duration: ${durationHr}`);
+
         const baseRatePerKm = {
           car: 10,
           walking: 0,
@@ -67,29 +75,6 @@ const transportController = {
           duration: `${durationHr} hr`,
           costINR: `${costINR} INR`,
           costUSD: `$${costUSD}`
-        });
-      }
-
-      // Dynamic mock pricing logic for other transport
-      const distanceEstimate = Math.floor(Math.random() * 100) + 50;
-      const extraModes = [
-        { mode: 'train', rate: 0.5, provider: 'Indian Railways' },
-        { mode: 'metro', rate: 0.4, provider: 'Metro Services' },
-        { mode: 'bus', rate: 0.35, provider: 'State Transport' },
-        { mode: 'flight', rate: 2.0, provider: 'Air India' }
-      ];
-
-      for (const transport of extraModes) {
-        const costINR = (distanceEstimate * transport.rate).toFixed(0);
-        const costUSD = (costINR / 83).toFixed(2);
-
-        options.push({
-          mode: transport.mode,
-          distance: `${distanceEstimate} km`,
-          duration: `${(distanceEstimate / 60).toFixed(2)} hr`, // estimate avg 60 km/h
-          costINR: `${costINR} INR`,
-          costUSD: `$${costUSD}`,
-          provider: transport.provider
         });
       }
 
