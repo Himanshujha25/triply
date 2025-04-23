@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { FaArrowLeft, FaCar, FaWalking, FaBicycle, FaTrain, FaSubway } from "react-icons/fa";
+import { FaArrowLeft, FaCar, FaWalking, FaBicycle } from "react-icons/fa";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";
 
@@ -49,8 +49,6 @@ const Transport = () => {
     driving: <FaCar className="text-teal-400" />,
     walking: <FaWalking className="text-teal-400" />,
     bicycling: <FaBicycle className="text-teal-400" />,
-    train: <FaTrain className="text-teal-400" />,
-    metro: <FaSubway className="text-teal-400" />,
   };
 
   return (
