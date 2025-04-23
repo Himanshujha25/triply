@@ -45,6 +45,12 @@ const Transport = () => {
     fetchTransportOptions();
   }, [from, destination]);
 
+  const openInGoogleMaps = (origin, destination, mode) => {
+    const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}&travelmode=${mode}`;
+    window.open(url, "_blank");
+  };
+  
+
   const modeIcons = {
     driving: <FaCar className="text-teal-400" />,
     walking: <FaWalking className="text-teal-400" />,
@@ -97,9 +103,11 @@ const Transport = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {transportOptions.map((option, index) => (
                   <div
-                    key={index}
-                    className="p-6 bg-gray-800/80 rounded-xl border border-gray-700 hover:border-teal-500 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20"
-                  >
+                  key={index}
+                  onClick={() => openInGoogleMaps(from, destination, option.mode)}
+                  className="p-6 bg-gray-800/80 rounded-xl border border-gray-700 hover:border-teal-500 transition-all duration-300 hover:shadow-lg hover:shadow-teal-500/20 cursor-pointer"
+                >
+                
                     <div className="flex items-center gap-3 mb-4">
                       {modeIcons[option.mode] || <FaCar className="text-teal-400" />}
                       <h3 className="text-xl font-semibold text-teal-400 capitalize">{option.mode}</h3>
