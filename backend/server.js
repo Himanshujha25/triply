@@ -7,6 +7,10 @@ const connectDB = require("./config/db");
 const accommodation = require('./controllers/accommodation');
 const tripController = require("./controllers/tripController");
 const flightController = require("./controllers/flightController");
+const transportController =require("./controllers/transport")
+
+
+
 // Check this line in your server.js
 const getPlaceImages = require("./utils/getPlaceImage");
 
@@ -15,8 +19,9 @@ require("dotenv").config();
 const app = express();
 
 // Middleware
+
 app.use(cors({
-  origin: 'https://triplyv2-himanshujha25s-projects.vercel.app',
+  origin: ['http://localhost:5173', 'https://triplyv2-himanshujha25s-projects.vercel.app'],
   methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true
 }));
@@ -32,6 +37,8 @@ app.get("/", (req, res) => {
 app.post("/api/travel", tripController.travelPlanner);
 app.post("/api/flights", flightController.searchFlights);
 app.get('/api/accommodation/search', accommodation.searchAccommodation); 
+app.post("/api/transport", transportController.getTransportOptions);
+
 
 app.get("/api/getPlaceImage", async (req, res) => {
   const { destination, days } = req.query;

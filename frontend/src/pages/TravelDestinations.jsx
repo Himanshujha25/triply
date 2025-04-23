@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaSearch, FaMapMarkerAlt, FaStar, FaHeart, FaRegHeart, FaUmbrellaBeach, FaUtensils, FaMountain, FaLandmark } from "react-icons/fa";
-import { MdFlightTakeoff, MdHotel, MdAttractions, MdFilterList, MdClose, MdNightlife, MdDirectionsWalk } from "react-icons/md";
-import { IoArrowBack, IoLeaf } from "react-icons/io5";
-import { GiCastle, GiIndianPalace, GiShoppingBag } from "react-icons/gi";
+import {  FaMapMarkerAlt, FaStar, FaHeart, FaRegHeart, } from "react-icons/fa";
+import { IoArrowBack } from "react-icons/io5";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";

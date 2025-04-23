@@ -9,11 +9,10 @@ import DestinationPage from './pages/TravelDestinations';
 import Accommodation from './pages/Accommodation';
 import './App.css';
 import PlaceImage from './pages/placeImage';
-
+import Transport from './pages/Transport';
 
 function App() {
-  // Ensure dark mode class is always applied
-  document.documentElement.classList.add("dark");
+
 
   return (
     <Router>
@@ -27,6 +26,7 @@ function App() {
         <Route path='/destinations' element={<DestinationPage/>}/>
         <Route path='/Accommodations' element={<Accommodation/>}/>
         <Route path='/placeImage' element={<PlaceImage/>}/>
+        <Route path="/transport" element={<Transport />} /> 
       </Routes>
     </Router>
   );

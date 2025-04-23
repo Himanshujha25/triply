@@ -6,7 +6,7 @@ import bg from "../assets/bg.png";
 
 function HomePage() {
   const [ripples, setRipples] = useState([]);
-  const [scrollY, setScrollY] = useState(0);
+  const [setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [activeFeedback, setActiveFeedback] = useState(0);
@@ -67,11 +67,11 @@ function HomePage() {
             cta: isElementInViewport(ctaSection)
           }));
         }
-      }, 10); // Small timeout for debounce
+      }, 10); 
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll();
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -94,7 +94,7 @@ function HomePage() {
   useEffect(() => {
     let throttleTimeout = null;
     let lastExecution = 0;
-    const throttleDelay = 30; // ms
+    const throttleDelay = 30;
 
     const handleMouseMove = (e) => {
       const now = Date.now();
@@ -122,7 +122,7 @@ function HomePage() {
 
   // Memoized ripple creation function
   const createRipple = useCallback((e) => {
-    if (ripples.length > 10) return; // Limit concurrent ripples for performance
+    if (ripples.length > 10) return;
 
     const x = e.clientX;
     const y = e.clientY;
@@ -589,8 +589,6 @@ function HomePage() {
                             </div>
                           </div>
                         </div>
-
-                        {/* Feedback text with animated quotes */}
                         <div className="relative mt-6 text-center md:text-left">
                           <motion.span
                             className="absolute -top-3 -left-2 text-3xl text-indigo-400/40"

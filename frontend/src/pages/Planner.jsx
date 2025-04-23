@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaArrowLeft, FaPlaneDeparture, FaCalendarAlt, FaUser } from "react-icons/fa";
+import { FaArrowLeft, FaPlaneDeparture, FaCalendarAlt, FaUser, FaBus, FaMoneyBillWave } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import triply from "../assets/ChatGPT Image Apr 7, 2025, 08_48_52 PM.png";
 import Footer from "../components/Footer";
@@ -19,6 +19,35 @@ const Input = ({ label, value, onChange, placeholder, autoFocus = false, icon })
         onChange={(e) => onChange(e.target.value)}
         className={`w-full p-3 ${icon ? 'pl-10' : 'pl-3'} rounded-xl bg-gray-950 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 hover:border-teal-500 placeholder-gray-400 shadow-sm`}
       />
+    </div>
+  </div>
+);
+
+// ✅ Budget Input with Currency Selection
+const BudgetInput = ({ value, onChange, currency, onCurrencyChange }) => (
+  <div className="w-full group">
+    <label className="block text-sm font-semibold text-gray-300 mb-2 transition-all group-hover:text-teal-400">Budget</label>
+    <div className="flex">
+      <div className="relative flex-1">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-teal-400">
+          <FaMoneyBillWave />
+        </span>
+        <input
+          type="text"
+          placeholder="e.g., 1000"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full p-3 pl-10 rounded-l-xl bg-gray-950 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 hover:border-teal-500 placeholder-gray-400 shadow-sm"
+        />
+      </div>
+      <select
+        value={currency}
+        onChange={(e) => onCurrencyChange(e.target.value)}
+        className="w-24 p-3 rounded-r-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-teal-500 transition-all duration-300 hover:border-teal-500 shadow-sm"
+      >
+        <option value="USD">$ USD</option>
+        <option value="INR">₹ INR</option>
+      </select>
     </div>
   </div>
 );
@@ -45,6 +74,7 @@ const Planner = () => {
   const [from, setFrom] = useState("");
   const [destination, setDestination] = useState("");
   const [budget, setBudget] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [preferences, setPreferences] = useState("");
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
@@ -68,7 +98,6 @@ const Planner = () => {
       return;
     }
 
-
     setLoading(true);
 
     try {
@@ -81,11 +110,10 @@ const Planner = () => {
           startDate: arrivalDate,
           endDate: departureDate,
           interests: preferences,
-          budget,
+          budget: `${currency} ${budget}`,
         }),
       });
       
-
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || "Failed to generate itinerary");
 
@@ -109,7 +137,8 @@ const Planner = () => {
         state: {
           from,
           destination,
-          budget,
+          budget: budget, // Just pass the budget amount
+          currency: currency, // Pass currency separately
           preferences,
           arrivalDate,
           departureDate,
@@ -122,6 +151,20 @@ const Planner = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleShowTransport = () => {
+    if (!from || !destination) {
+      alert("Please enter your starting location and destination.");
+      return;
+    }
+    
+    navigate("/transport", {
+      state: {
+        from,
+        destination
+      }
+    });
   };
 
   return (
@@ -181,12 +224,11 @@ const Planner = () => {
                     placeholder="e.g., Paris" 
                     icon={<FaPlaneDeparture />}
                   />
-                  <Input 
-                    label="Budget" 
+                  <BudgetInput 
                     value={budget} 
                     onChange={setBudget} 
-                    placeholder="e.g., $1000" 
-                    icon={<span className="font-bold">$</span>}
+                    currency={currency}
+                    onCurrencyChange={setCurrency}
                   />
                   <Input
                     label="Preferences"
@@ -195,6 +237,7 @@ const Planner = () => {
                     placeholder="e.g., hiking, beaches"
                     icon={<span>✦</span>}
                   />
+                  
                 </div>
               </div>
 
@@ -208,6 +251,17 @@ const Planner = () => {
                   <InputDate label="Arrival Date" value={arrivalDate} onChange={setArrivalDate} />
                   <InputDate label="Departure Date" value={departureDate} onChange={setDepartureDate} />
                 </div>
+              </div>
+
+              {/* Transport Button */}
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleShowTransport}
+                  className="bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-400 hover:to-blue-600 text-white text-lg px-8 py-3 rounded-full font-bold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2 mx-auto"
+                >
+                  <FaBus /> Show Available Transport Options
+                </button>
               </div>
 
               {/* Submit Button */}
