@@ -67,13 +67,16 @@ const Itinerary = () => {
   // Fetch weather forecast
   const fetchWeatherForecast = async () => {
     if (!destination || !arrivalDate || !departureDate) return;
-
+  
     setLoading(true);
     try {
       const startDate = new Date(arrivalDate);
       const endDate = new Date(departureDate);
-      const tripDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
-
+      let tripDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+  
+      // Limit the forecast to a maximum of 10 days
+      tripDays = Math.min(tripDays, 10);
+  
       const weatherForecast = Array.from({ length: tripDays }, (_, i) => {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
@@ -81,7 +84,7 @@ const Itinerary = () => {
         const randomWeather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
         const tempMin = Math.floor(Math.random() * 10) + 15;
         const tempMax = tempMin + Math.floor(Math.random() * 10) + 3;
-
+  
         return {
           date: date.toISOString().split("T")[0],
           day: i + 1,
@@ -91,13 +94,15 @@ const Itinerary = () => {
           humidity: Math.floor(Math.random() * 50) + 30,
         };
       });
-
+  
       setWeatherData(weatherForecast);
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
+  
     setLoading(false);
   };
+  
 
   useEffect(() => {
     fetchWeatherForecast();
@@ -123,11 +128,15 @@ const Itinerary = () => {
 
   // Weather widget component
   const WeatherWidget = ({ dayNumber }) => {
-    if (!weatherData) return null;
-
+    if (!weatherData) {
+      return <p className="text-gray-400">Loading weather data...</p>;
+    }
+  
     const dayWeather = weatherData.find((w) => w.day === dayNumber);
-    if (!dayWeather) return null;
-
+    if (!dayWeather) {
+      return <p className="text-yellow-300">Weather forecast available only for up to 10 days.</p>;
+    }
+  
     return (
       <div className="bg-gray-800/60 rounded-lg p-3 mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -135,6 +144,7 @@ const Itinerary = () => {
           <div>
             <p className="text-sm text-gray-300">Expected Weather</p>
             <p className="text-white capitalize">{dayWeather.weather}</p>
+            <p className="text-xs text-gray-400">{dayWeather.date}</p>
           </div>
         </div>
         <div className="text-right">
@@ -146,6 +156,7 @@ const Itinerary = () => {
       </div>
     );
   };
+  
 
   // Format dates for display
   const formatDate = (dateString) => {
