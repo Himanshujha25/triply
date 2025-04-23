@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { FaArrowLeft, FaCar, FaWalking, FaBicycle } from "react-icons/fa";
+import { FaArrowLeft, FaCar, FaWalking, FaBicycle, FaTrain, FaSubway } from "react-icons/fa";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";
 
 const Transport = () => {
   const { state } = useLocation();
-  const { from, destination } = state || {}; // Optional chaining for state
+  const { from, destination } = state || {};
 
   const [transportOptions, setTransportOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const Transport = () => {
     }
 
     const fetchTransportOptions = async () => {
-      setLoading(true);  // Show loading indicator
+      setLoading(true);
       try {
         const response = await fetch("https://triply-2-o.onrender.com/api/transport", {
           method: "POST",
@@ -36,20 +36,21 @@ const Transport = () => {
         setTransportOptions(data.options || []);
       } catch (err) {
         console.error("Error fetching transport options:", err);
-        setError(err.message);  // Set the error state
+        setError(err.message);
       } finally {
-        setLoading(false);  // Stop loading indicator
+        setLoading(false);
       }
     };
 
     fetchTransportOptions();
   }, [from, destination]);
 
-  // Icons for different transport modes
   const modeIcons = {
     driving: <FaCar className="text-teal-400" />,
     walking: <FaWalking className="text-teal-400" />,
     bicycling: <FaBicycle className="text-teal-400" />,
+    train: <FaTrain className="text-teal-400" />,
+    metro: <FaSubway className="text-teal-400" />,
   };
 
   return (
@@ -60,7 +61,6 @@ const Transport = () => {
       >
         <div className="flex-1 bg-black/60 backdrop-blur-md px-4 py-6">
           <div className="max-w-6xl mx-auto">
-            {/* Back Button */}
             <div className="mb-6">
               <Link
                 to="/planner"
@@ -71,7 +71,6 @@ const Transport = () => {
               </Link>
             </div>
 
-            {/* Header */}
             <div className="text-center mb-10 animate-fade-in">
               <h1 className="text-3xl md:text-5xl font-extrabold mt-6 bg-gradient-to-r from-teal-300 to-teal-500 text-transparent bg-clip-text">
                 Transport Options 🚗
@@ -81,7 +80,6 @@ const Transport = () => {
               </p>
             </div>
 
-            {/* Transport Options */}
             <div className="max-w-5xl mx-auto mt-4 bg-gray-900/90 p-8 md:p-10 rounded-3xl shadow-2xl border border-gray-700/50 backdrop-blur-sm">
               {loading ? (
                 <div className="flex flex-col items-center justify-center p-4">
@@ -112,8 +110,9 @@ const Transport = () => {
                         {modeIcons[option.mode] || <FaCar className="text-teal-400" />}
                         <h3 className="text-xl font-semibold text-teal-400 capitalize">{option.mode}</h3>
                       </div>
-                      <p className="text-gray-300">Distance: {option.distance}</p>
-                      <p className="text-gray-300">Duration: {option.duration}</p>
+                      <p className="text-gray-300">Distance: {option.distance} km</p>
+                      <p className="text-gray-300">Duration: {option.duration} hrs</p>
+                      <p className="text-gray-300">Cost: ₹{option.cost_inr} / ${option.cost_usd}</p>
                     </div>
                   ))}
                 </div>
@@ -121,7 +120,6 @@ const Transport = () => {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     </div>
