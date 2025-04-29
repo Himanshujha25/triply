@@ -9,14 +9,13 @@ exports.travelPlanner = async (req, res) => {
       return res.status(400).json({ message: "Please provide all required fields." });
     }
 
-    // Parse budget string to extract currency and amount
-    // The budget comes in format "USD 1000" or "INR 50000"
+    
     const budgetParts = budget.split(' ');
-    const currency = budgetParts[0]; // "USD" or "INR"
-    const budgetAmount = budgetParts[1]; // The numeric amount
+    const currency = budgetParts[0]; 
+    const budgetAmount = budgetParts[1]; 
 
     // Determine currency symbol for prompt
-    const currencySymbol = currency === "INR" ? "₹" : "$";
+    const currencySymbol = currency === "INR" ? "₹" : "$" ;
 
     const prompt = `
 Create a personalized travel itinerary for a trip from ${from} to ${destination} from ${startDate} to ${endDate}.

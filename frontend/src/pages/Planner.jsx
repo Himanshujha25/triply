@@ -5,7 +5,7 @@ import triply from "../assets/ChatGPT Image Apr 7, 2025, 08_48_52 PM.png";
 import Footer from "../components/Footer";
 import bg from "../assets/bg.png";
 
-// ✅ Reusable Input Field Component with improved styling
+
 const Input = ({ label, value, onChange, placeholder, autoFocus = false, icon }) => (
   <div className="w-full group">
     <label className="block text-sm font-semibold text-gray-300 mb-2 transition-all group-hover:text-teal-400">{label}</label>
@@ -23,7 +23,6 @@ const Input = ({ label, value, onChange, placeholder, autoFocus = false, icon })
   </div>
 );
 
-// ✅ Budget Input with Currency Selection
 const BudgetInput = ({ value, onChange, currency, onCurrencyChange }) => (
   <div className="w-full group">
     <label className="block text-sm font-semibold text-gray-300 mb-2 transition-all group-hover:text-teal-400">Budget</label>
@@ -47,12 +46,27 @@ const BudgetInput = ({ value, onChange, currency, onCurrencyChange }) => (
       >
         <option value="USD">$ USD</option>
         <option value="INR">₹ INR</option>
+        <option value="EUR">€ EUR</option>
+        <option value="GBP">£ GBP</option>
+        <option value="AUD">A$ AUD</option>
+        <option value="CAD">C$ CAD</option>
+        <option value="JPY">¥ JPY</option>
+        <option value="CNY">¥ CNY</option>
+        <option value="NZD">NZ$ NZD</option>
+        <option value="CHF">CHF</option>
+        <option value="SEK">kr SEK</option>
+        <option value="NOK">kr NOK</option>
+        <option value="MXN">$ MXN</option>
+        <option value="SGD">S$ SGD</option>
+        <option value="HKD">HK$ HKD</option>
+        <option value="ZAR">R ZAR</option>
+        <option value="BRL">R$ BRL</option>
+        <option value="RUB">₽ RUB</option>
       </select>
     </div>
   </div>
 );
 
-// ✅ Date Input Component with improved styling
 const InputDate = ({ label, value, onChange }) => (
   <div className="w-full group">
     <label className="block text-sm font-semibold text-gray-300 mb-2 transition-all group-hover:text-teal-400">{label}</label>
@@ -74,7 +88,7 @@ const Planner = () => {
   const [from, setFrom] = useState("");
   const [destination, setDestination] = useState("");
   const [budget, setBudget] = useState("");
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("INR");
   const [preferences, setPreferences] = useState("");
   const [arrivalDate, setArrivalDate] = useState("");
   const [departureDate, setDepartureDate] = useState("");
@@ -137,8 +151,8 @@ const Planner = () => {
         state: {
           from,
           destination,
-          budget: budget, // Just pass the budget amount
-          currency: currency, // Pass currency separately
+          budget: budget, 
+          currency: currency, 
           preferences,
           arrivalDate,
           departureDate,
