@@ -35,7 +35,7 @@ const Transport = () => {
         const data = await response.json();
         setTransportOptions(data.options || []);
       } catch (err) {
-        console.error("Error fetching transport options:", err);
+        console.error("Error fetching transport optionss:", err);
         setError(err.message);
       } finally {
         setLoading(false);
