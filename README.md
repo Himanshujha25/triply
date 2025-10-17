@@ -17,7 +17,7 @@ Triply AI is a smart travel planner that uses artificial intelligence to create 
 ## Getting Started
 ```bash
 # Clone the repository
-git clone https://github.com/himanshujha25/triply-ai.git
+git clone https://github.com/himanshujha25/triply.git
 
 # Install dependencies
 cd triply-ai
