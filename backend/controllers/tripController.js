@@ -5,100 +5,140 @@ exports.travelPlanner = async (req, res) => {
   try {
     const { from, destination, startDate, endDate, interests, budget } = req.body;
 
-    if (!destination || !startDate || !endDate || !budget) {
+    // 1️⃣ Validate inputs
+    if (!from || !destination || !startDate || !endDate || !budget) {
       return res.status(400).json({ message: "Please provide all required fields." });
     }
 
-    
-    const budgetParts = budget.split(' ');
-    const currency = budgetParts[0]; 
-    const budgetAmount = budgetParts[1]; 
+    const parts = budget.trim().split(" ");
+    if (parts.length !== 2) {
+      return res.status(400).json({ message: "Budget must be in format: 'INR 1000'" });
+    }
 
-    // Determine currency symbol for prompt
-    const currencySymbol = currency === "INR" ? "₹" : "$" ;
+    const currency = parts[0].toUpperCase();
+    const amount = parts[1];
+    const symbol = currency === "INR" ? "₹" : "$";
 
+    // 2️⃣ Calculate trip duration
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const days = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1);
+    const dailyBudget = (amount / days).toFixed(0);
+
+    // 3️⃣ AI Prompt
     const prompt = `
-Create a personalized travel itinerary for a trip from ${from} to ${destination} from ${startDate} to ${endDate}.
-The traveler's total budget is ${currencySymbol}${budgetAmount} ${currency}. Interests: ${interests || "general tourism"}.
+Create a detailed ${days}-day travel itinerary from ${from} to ${destination} (${startDate} - ${endDate}).
+Total budget: ${symbol}${amount} (${currency}). Daily budget ≈ ${symbol}${dailyBudget}.
+User interests: ${interests || "general tourism"}.
 
-Format your response as a daily itinerary where each day includes activities and their estimated costs in ${currency}.
-Please be practical and specific with cost estimates for each activity in ${currency}.
-Avoid generic recommendations and don't include shopping activities.
+For each day, use this exact structure:
 
-Format:
-Day X: Activity 1 (${currencySymbol}[cost]), Activity 2 (${currencySymbol}[cost]), etc.
+Day 1: [Short title]
+Morning:
+• Activity - Description
+  Cost: ${symbol}XXX | Duration: X hrs
+Afternoon:
+• Activity - Description
+  Cost: ${symbol}XXX | Duration: X hrs
+Evening:
+• Activity - Description
+  Cost: ${symbol}XXX | Duration: X hrs
+💡 Tip: [Local advice]
+🍽️ Food: [Local dish]
+Avoid shopping activities.
 `;
 
+    // 4️⃣ API call
     const response = await axios.post(
-      "https://api.together.xyz/v1/chat/completions",
+      "https://openrouter.ai/api/v1/chat/completions",
       {
-        model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+        model: "gpt-4.1-mini",
         messages: [
-          { 
-            role: "system", 
-            content: `You are a helpful travel planner assistant. Provide detailed itineraries with practical advice and cost estimates in ${currency}. Don't include shopping activities and focus on authentic local experiences.` 
+          {
+            role: "system",
+            content: `You are a structured travel itinerary generator. Keep responses consistent and clearly labeled by days.`
           },
           { role: "user", content: prompt }
         ],
         temperature: 0.7,
-        max_tokens: 1000,
-        top_p: 0.9
+        max_tokens: 2000
       },
       {
         headers: {
-          Authorization: `Bearer ${process.env.TOGETHER_API_KEY}`,
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
           "Content-Type": "application/json"
         }
       }
     );
 
-    const plan =
-      response.data?.choices?.[0]?.message?.content ||
-      response.data?.choices?.[0]?.content;
+    // 5️⃣ Extract and parse AI response
+    const text =
+      response?.data?.choices?.[0]?.message?.content ||
+      response?.data?.choices?.[0]?.content;
 
-    if (!plan) {
-      console.error("❌ No plan content found in response:", response.data);
-      return res.status(500).json({ message: "No itinerary received from AI." });
+    if (!text) {
+      return res.status(500).json({ message: "No itinerary returned by AI." });
     }
 
-    // Parse the plan into structured format
-    const lines = plan.trim().split("\n");
-    const structuredItinerary = [];
-    let currentDay = null;
+    const lines = text.split(/\r?\n/);
+    const itinerary = [];
+    let current = null;
+    let content = [];
 
-    lines.forEach((line) => {
+    for (const line of lines) {
       const trimmed = line.trim();
-      const match = trimmed.match(/^Day\s*(\d+):/i);
-      if (match) {
-        currentDay = parseInt(match[1]);
-        structuredItinerary.push({ day: currentDay, activity: trimmed });
-      } else if (currentDay !== null && trimmed) {
-        structuredItinerary[structuredItinerary.length - 1].activity += `\n${trimmed}`;
-      }
-    });
+      const match = trimmed.match(/^Day\s*(\d+)[\s:.-]*/i);
 
-    // Save to MongoDB with currency information
-    const savedItinerary = await Itinerary.create({
+      if (match) {
+        if (current && content.length > 0) {
+          itinerary.push({
+            day: current,
+            activities: content.join("\n").trim()
+          });
+        }
+        current = parseInt(match[1]);
+        content = [trimmed];
+      } else if (current && trimmed) {
+        content.push(trimmed);
+      }
+    }
+
+    // Push last day
+    if (current && content.length > 0) {
+      itinerary.push({ day: current, activities: content.join("\n").trim() });
+    }
+
+    // Fallback in case no "Day X" detected
+    if (itinerary.length === 0) {
+      itinerary.push({ day: 1, activities: text.trim() });
+    }
+
+    // 6️⃣ Save to MongoDB
+    const saved = await Itinerary.create({
       from,
       destination,
       startDate,
       endDate,
       interests,
-      budget: budgetAmount,
+      budget: amount,
       currency,
-      itinerary: structuredItinerary
+      itinerary
     });
 
+    // 7️⃣ Return result
     res.status(200).json({
-      message: "Travel plan generated and saved successfully",
-      travelPlan: plan,
-      currency,
-      id: savedItinerary._id,
+      message: "Travel plan generated successfully",
+      summary: {
+        totalDays: itinerary.length,
+        budget: `${symbol}${amount}`,
+        currency
+      },
+      itinerary,
+      id: saved._id
     });
 
-  } catch (error) {
-    console.error("❌ Error generating travel plan:");
-    console.error(error.response?.data || error.message || error);
-    res.status(500).json({ message: "Failed to generate travel plan." });
+  } catch (err) {
+    console.error("❌ Travel plan error:", err.response?.data || err.message);
+    res.status(500).json({ message: "Failed to generate travel plan.", error: err.message });
   }
 };

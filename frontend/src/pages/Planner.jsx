@@ -96,76 +96,54 @@ const Planner = () => {
 
   const navigate = useNavigate();
 
-  const handleGenerate = async (e) => {
-    e.preventDefault();
 
-    if (!from || !destination || !budget || !preferences || !arrivalDate || !departureDate) {
-      alert("Please fill in all fields.");
-      return;
-    }
-    if (arrivalDate > departureDate) {
-      alert("Arrival date cannot be after departure date.");
-      return;
-    }
-    if (new Date(arrivalDate) < new Date()) {
-      alert("Arrival date cannot be in the past.");
-      return;
-    }
 
-    setLoading(true);
+const handleGenerate = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await fetch("https://triply-2-o.onrender.com/api/travel", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          from,
-          destination,
-          startDate: arrivalDate,
-          endDate: departureDate,
-          interests: preferences,
-          budget: `${currency} ${budget}`,
-        }),
-      });
-      
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message || "Failed to generate itinerary");
+  // ... (keep your input validation checks here)
 
-      const lines = data.travelPlan?.split("\n") || [];
-      const itinerary = [];
+  setLoading(true);
 
-      let currentDay = null;
-      lines.forEach((line) => {
-        const trimmed = line.trim();
-        const dayMatch = trimmed.match(/^Day\s*(\d+):/i);
+  try {
+    const response = await fetch("https://triply-2-o.onrender.com/api/travel", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        from,
+        destination,
+        startDate: arrivalDate,
+        endDate: departureDate,
+        interests: preferences,
+        budget: `${currency} ${budget}`,
+      }),
+    });
+    
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to generate itinerary");
 
-        if (dayMatch) {
-          currentDay = parseInt(dayMatch[1]);
-          itinerary.push({ day: currentDay, activity: trimmed });
-        } else if (trimmed && currentDay !== null) {
-          itinerary[itinerary.length - 1].activity += `\n${trimmed}`;
-        }
-      });
 
-      navigate("/itinerary", {
-        state: {
-          from,
-          destination,
-          budget: budget, 
-          currency: currency, 
-          preferences,
-          arrivalDate,
-          departureDate,
-          itinerary,
-        },
-      });
-    } catch (err) {
-      console.error("Error generating itinerary:", err);
-      alert("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+    // ✅ NAVIGATE WITH THE CORRECT DATA FROM THE BACKEND
+    navigate("/itinerary", {
+      state: {
+        from,
+        destination,
+        // Pass the formatted budget string from the backend's summary
+        budget: data.summary.budget,
+        preferences,
+        arrivalDate,
+        departureDate,
+        // Pass the structured itinerary array directly from the backend
+        itinerary: data.itinerary,
+      },
+    });
+  } catch (err) {
+    console.error("Error generating itinerary:", err);
+    alert("Something went wrong. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleShowTransport = () => {
     if (!from || !destination) {
