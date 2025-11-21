@@ -139,6 +139,7 @@ Avoid shopping activities.
 
   } catch (err) {
     console.error("❌ Travel plan error:", err.response?.data || err.message);
+    console.log(err);
     res.status(500).json({ message: "Failed to generate travel plan.", error: err.message });
   }
 };
